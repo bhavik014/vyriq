@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Payment Cancelled — Vyriq.ai{% endblock %}
+{% block body %}
+<div style="min-height:100vh;background:var(--obsidian);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px">
+  <a href="{{ url_for('index') }}" class="navbar__logo" style="margin-bottom:48px">
+    <span class="logo-mark">V</span> Vyriq
+  </a>
+
+  <div style="background:var(--obsidian-2);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:48px 40px;max-width:460px;width:100%;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,.5)">
+    <div style="font-size:2.5rem;margin-bottom:20px">—</div>
+    <h1 style="font-size:2rem;color:#fff;margin-bottom:12px">No worries.</h1>
+    <p style="font-size:.92rem;color:rgba(255,255,255,.45);line-height:1.75;margin-bottom:32px">
+      You cancelled before completing payment. Your Starter plan is still active — nothing has changed.
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn--gold" style="width:100%;justify-content:center">
+        Try Again — Creator $29/mo →
+      </a>
+      <a href="{{ url_for('dashboard') }}" class="btn btn--outline-light" style="width:100%;justify-content:center;border-color:rgba(255,255,255,.15)">
+        Back to Dashboard
+      </a>
+    </div>
+
+    <p style="margin-top:24px;font-size:.75rem;color:rgba(255,255,255,.2)">
+      14-day free trial — cancel anytime — no questions asked
+    </p>
+  </div>
+</div>
+{% endblock %}

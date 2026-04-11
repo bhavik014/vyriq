@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+
+{% block title %}Vyriq.ai — Social Content Intelligence, Powered by Your AI{% endblock %}
+
+{% block body %}
+
+<!-- ═══════════════════════════════════ NAVBAR ═══════════════════════════════════ -->
+<header class="navbar">
+  <nav class="navbar__inner container">
+    <a href="{{ url_for('index') }}" class="navbar__logo">
+      <span class="logo-mark">V</span>
+      Vyriq
+    </a>
+
+    <ul class="navbar__links" id="navLinks">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+    </ul>
+
+    <div class="navbar__actions">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('dashboard') }}" class="btn btn--ghost">Dashboard</a>
+        <a href="{{ url_for('logout') }}" class="btn btn--outline">Sign out</a>
+      {% else %}
+        <a href="{{ url_for('login') }}" class="btn btn--ghost">Sign in</a>
+        <a href="{{ url_for('signup') }}" class="btn btn--primary">Start free →</a>
+      {% endif %}
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- ═══════════════════════════════════ HERO ═══════════════════════════════════ -->
+<section class="hero">
+  <div class="container hero__inner">
+
+    <div class="hero__content">
+      <div class="badge badge--red">
+        <span class="dot"></span>
+        New · Built on Your Own AI
+      </div>
+
+      <h1 class="hero__headline">
+        Your AI. Your data.
+        <br /><em>Your growth.</em>
+      </h1>
+
+      <p class="hero__subline">
+        Vyriq runs on AI you control — not a black box someone else owns.
+        It analyzes every post you publish and tells you exactly what's working,
+        what's not, and what to do next.
+      </p>
+
+      <div class="hero__cta">
+        <a href="{{ url_for('signup') }}" class="btn btn--primary btn--lg">
+          Start for free — no card needed →
+        </a>
+        <a href="#how-it-works" class="btn btn--outline btn--lg">
+          See how it works
+        </a>
+      </div>
+
+      <div class="hero__social-proof">
+        <div class="avatars">
+          <span class="avatar">🧑‍💼</span>
+          <span class="avatar">👩‍🎨</span>
+          <span class="avatar">👨‍💻</span>
+          <span class="avatar">👩‍🚀</span>
+          <span class="avatar">🧑‍🎤</span>
+        </div>
+        <p><strong>2,400+ creators</strong> already growing smarter</p>
+      </div>
+    </div>
+
+    <!-- Dashboard Mockup -->
+    <div class="hero__mockup">
+      <div class="browser-window">
+        <div class="browser-bar">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+          <div class="browser-url">Vyriq.ai/dashboard</div>
+        </div>
+        <div class="dash-preview">
+          <div class="dash-header">
+            <span class="dash-title">Today's Insights</span>
+            <span class="badge badge--red" style="font-size:.65rem">● Live</span>
+          </div>
+
+          <div class="metric-row">
+            <div class="mini-metric">
+              <span class="mini-label">Avg. Engagement</span>
+              <span class="mini-value">7.4%</span>
+              <span class="mini-delta up">↑ +2.1%</span>
+            </div>
+            <div class="mini-metric">
+              <span class="mini-label">Best Post Time</span>
+              <span class="mini-value">7–9 AM</span>
+              <span class="mini-delta up">↑ Tue &amp; Thu</span>
+            </div>
+            <div class="mini-metric">
+              <span class="mini-label">Hook Score</span>
+              <span class="mini-value">91/100</span>
+              <span class="mini-delta up">↑ +6 pts</span>
+            </div>
+          </div>
+
+          <div class="ai-insight-box">
+            <div class="ai-icon">✦</div>
+            <div>
+              <p class="ai-label">AI Insight</p>
+              <p class="ai-text">Your Tuesday posts get <strong>3.2× more saves</strong>
+                than any other day. Schedule your best content for 9 AM Tuesday.</p>
+            </div>
+          </div>
+
+          <div class="mini-chart">
+            <div class="chart-bars">
+              <div class="bar" style="height:40%"></div>
+              <div class="bar bar--high" style="height:65%"></div>
+              <div class="bar" style="height:48%"></div>
+              <div class="bar bar--mid" style="height:80%"></div>
+              <div class="bar bar--mid" style="height:72%"></div>
+              <div class="bar bar--peak" style="height:91%"></div>
+              <div class="bar" style="height:60%"></div>
+            </div>
+            <div class="chart-labels">
+              <span>Mon</span><span>Tue</span><span>Wed</span>
+              <span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-tag float-tag--1">📈 Engagement up 34%</div>
+      <div class="float-tag float-tag--2">🤖 AI-analyzed 847 posts</div>
+    </div>
+
+  </div>
+
+  <!-- Logos bar -->
+  <div class="logos-bar">
+    <div class="container">
+      <p class="logos-label">Trusted by teams at</p>
+      <div class="logos-row">
+        <span>HubSpot</span><span>Shopify</span><span>Notion</span>
+        <span>Linear</span><span>Vercel</span><span>Figma</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ HOW IT WORKS ═══════════════════════════════════ -->
+<section class="section" id="how-it-works">
+  <div class="container">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">From signup to insights<br /><em>in under 5 minutes.</em></h2>
+    <p class="section-subtitle">No setup guides, no CSV exports, no spreadsheets. Vyriq works automatically the moment you connect.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-left">
+          <div class="step-icon">🔗</div>
+          <div class="connector"></div>
+        </div>
+        <div class="step-content">
+          <span class="step-number">01</span>
+          <h3 class="step-title">Connect your accounts</h3>
+          <p class="step-desc">Link your Instagram, LinkedIn, or Twitter in one click. Vyriq reads your post history — you never share a password.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-icon">🧠</div>
+          <div class="connector"></div>
+        </div>
+        <div class="step-content">
+          <span class="step-number">02</span>
+          <h3 class="step-title">AI reads your content</h3>
+          <p class="step-desc">Our AI scans every post, caption, hashtag, and engagement number to find patterns invisible to the human eye.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-icon">📋</div>
+          <div class="connector"></div>
+        </div>
+        <div class="step-content">
+          <span class="step-number">03</span>
+          <h3 class="step-title">Get your game plan</h3>
+          <p class="step-desc">Vyriq delivers a clear weekly brief: what to post, when to post it, and the exact hook style that works for your audience.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left">
+          <div class="step-icon">🚀</div>
+        </div>
+        <div class="step-content">
+          <span class="step-number">04</span>
+          <h3 class="step-title">Watch your growth</h3>
+          <p class="step-desc">Track improvement week over week. Most users see measurable engagement gains within the first 30 days.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ FEATURES ═══════════════════════════════════ -->
+<section class="section section--alt" id="features">
+  <div class="container">
+    <p class="section-label">Features</p>
+    <h2 class="section-title">Built for creators who<br /><em>take their content seriously.</em></h2>
+    <p class="section-subtitle">Every feature is designed around one goal: turning your content effort into compounding growth.</p>
+
+    <div class="features-grid">
+      {% set features = [
+        ('🎯', 'Hook Analyzer', 'Vyriq scores every opening line you write 0–100. Know precisely which hooks are grabbing attention vs. losing your audience in the first 2 seconds.', 'AI-powered'),
+        ('📅', 'Optimal Timing', 'Your personal best posting times — not generic advice. Calculated from when YOUR audience is actually active and engaging.', 'Personalized'),
+        ('🏷️', 'Hashtag Intelligence', 'Automatically surfaces 6–10 hashtags that drive real reach for your niche. No more guess-and-check.', 'Automated'),
+        ('📊', 'Competitor Benchmarks', 'See how your content stacks up against the top accounts in your niche. Spot gaps and opportunities instantly.', 'Competitive'),
+        ('✉️', 'Weekly AI Brief', 'Every Monday, Vyriq emails you a personalized content plan: what performed, what to improve, and the top 3 actions this week.', 'Recurring'),
+        ('🔁', 'Repurpose Finder', 'Vyriq identifies your buried gold — old posts that underperformed but have high potential — with suggestions to repost and refresh.', 'Smart'),
+      ] %}
+      {% for icon, title, desc, tag in features %}
+      <div class="card feature-card">
+        <div class="feature-top">
+          <span class="feature-icon">{{ icon }}</span>
+          <span class="tag">{{ tag }}</span>
+        </div>
+        <h3 class="feature-title">{{ title }}</h3>
+        <p class="feature-desc">{{ desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ PRICING ═══════════════════════════════════ -->
+<section class="section" id="pricing">
+  <div class="container">
+    <p class="section-label">Pricing</p>
+    <h2 class="section-title">Simple pricing.<br /><em>No surprises.</em></h2>
+    <p class="section-subtitle">Start free. Upgrade only when you're seeing results. Cancel anytime.</p>
+
+    <div class="pricing-grid">
+      <!-- Starter -->
+      <div class="card pricing-card">
+        <div class="plan-name">Starter</div>
+        <div class="price-wrap"><span class="currency">$</span><span class="price">0</span><span class="period">/mo</span></div>
+        <p class="plan-desc">Perfect for solo creators just getting started.</p>
+        <a href="{{ url_for('signup') }}" class="btn btn--outline plan-cta">Get started free →</a>
+        <ul class="feature-list">
+          <li><span class="check">✓</span> 1 connected account</li>
+          <li><span class="check">✓</span> 30 posts analyzed/month</li>
+          <li><span class="check">✓</span> Weekly AI brief</li>
+          <li><span class="check">✓</span> Hook scorer</li>
+          <li><span class="check">✓</span> Email support</li>
+        </ul>
+      </div>
+
+      <!-- Creator (popular) -->
+      <div class="card pricing-card pricing-card--popular">
+        <div class="popular-badge">Most Popular</div>
+        <div class="plan-name">Creator</div>
+        <div class="price-wrap"><span class="currency">$</span><span class="price">29</span><span class="period">/mo</span></div>
+        <p class="plan-desc">For serious creators who want real growth.</p>
+        <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn--primary plan-cta">Start 14-day trial →</a>
+        <ul class="feature-list">
+          <li><span class="check">✓</span> 3 connected accounts</li>
+          <li><span class="check">✓</span> Unlimited post analysis</li>
+          <li><span class="check">✓</span> Daily AI brief</li>
+          <li><span class="check">✓</span> Hashtag intelligence</li>
+          <li><span class="check">✓</span> Optimal timing engine</li>
+          <li><span class="check">✓</span> Competitor benchmarks</li>
+          <li><span class="check">✓</span> Repurpose finder</li>
+          <li><span class="check">✓</span> Priority support</li>
+        </ul>
+      </div>
+
+      <!-- Agency -->
+      <div class="card pricing-card">
+        <div class="plan-name">Agency</div>
+        <div class="price-wrap"><span class="currency">$</span><span class="price">79</span><span class="period">/mo</span></div>
+        <p class="plan-desc">For teams managing multiple brands.</p>
+        <a href="{{ url_for('create_checkout_session', plan='agency') }}" class="btn btn--outline plan-cta">Start 14-day trial →</a>
+        <ul class="feature-list">
+          <li><span class="check">✓</span> Unlimited accounts</li>
+          <li><span class="check">✓</span> Unlimited analysis</li>
+          <li><span class="check">✓</span> White-label reports</li>
+          <li><span class="check">✓</span> Team seats (up to 5)</li>
+          <li><span class="check">✓</span> API access</li>
+          <li><span class="check">✓</span> Custom AI prompts</li>
+          <li><span class="check">✓</span> Dedicated success manager</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="guarantee">🔒 30-day money-back guarantee · No contracts · Cancel anytime</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ TESTIMONIALS ═══════════════════════════════════ -->
+<section class="section section--alt" id="testimonials">
+  <div class="container">
+    <p class="section-label">Testimonials</p>
+    <h2 class="section-title">Real creators.<br /><em>Real numbers.</em></h2>
+    <p class="section-subtitle">We don't fake reviews. Every quote here comes from a paying Vyriq user.</p>
+
+    <div class="testimonials-grid">
+      {% set testimonials = [
+        ('👩‍🎨', 'Priya Sharma', '@priyacreates', 'Lifestyle Creator · 180K followers',
+         'Vyriq told me my Tuesday 9AM posts perform 3x better. I shifted my schedule and my engagement literally doubled in 3 weeks. This is not a joke.',
+         '2× engagement'),
+        ('👨‍💻', 'Marcus Lee', '@marcusbuilds', 'SaaS Founder · LinkedIn',
+         'I was posting daily and going nowhere. Vyriq showed me I was using the wrong hooks. Changed them up and my last post hit 40K impressions — a personal record.',
+         '40K impressions'),
+        ('👩‍🚀', 'Sofia Ruiz', '@sofiafitlife', 'Fitness Coach · Instagram',
+         'The hashtag tool alone is worth the $29. Went from 200 reach per post to 4,000+ consistently. My DMs are actually full now.',
+         '20× reach'),
+        ('🧑‍💼', 'Aiden Park', '@agencyaiden', 'Agency Owner · 12 client accounts',
+         'We manage Instagram for 12 brands. Vyriq saves us 6+ hours a week that we used to waste on analytics.',
+         '6 hrs saved/week'),
+        ('🧳', 'Leila Hassan', '@leilatravels', 'Travel Creator · 95K followers',
+         'I feel like I finally have a coach who actually knows my data. Every week Vyriq tells me exactly what to do — not generic tips, but MY content.',
+         '+34% saves'),
+        ('🧑‍🎤', 'James Okafor', '@jamesdoestech', 'Tech YouTuber & Twitter creator',
+         'The repurpose finder is sneaky good. Found 8 old posts I had forgotten about — refreshed them and they did 5× the original numbers.',
+         '5× reposts'),
+      ] %}
+      {% for avatar, name, handle, role, quote, metric in testimonials %}
+      <div class="card testimonial-card">
+        <div class="testimonial-top">
+          <span class="testimonial-avatar">{{ avatar }}</span>
+          <div>
+            <div class="testimonial-name">{{ name }}</div>
+            <div class="testimonial-handle">{{ handle }}</div>
+            <div class="testimonial-role">{{ role }}</div>
+          </div>
+          <span class="metric-badge">{{ metric }}</span>
+        </div>
+        <div class="divider"></div>
+        <blockquote class="testimonial-quote">"{{ quote }}"</blockquote>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ CTA BANNER ═══════════════════════════════════ -->
+<section class="cta-banner">
+  <div class="container cta-banner__inner">
+    <h2>Ready to grow smarter?</h2>
+    <p>Join 2,400+ creators who stopped guessing and started knowing.</p>
+    <a href="{{ url_for('signup') }}" class="btn btn--primary btn--lg">
+      Start free — no card needed →
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ FOOTER ═══════════════════════════════════ -->
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <div class="footer__logo">
+        <span class="logo-mark">V</span> Vyriq
+      </div>
+      <p class="footer__tagline">Your AI. Your data. Your growth. Built for creators who want to own their results.</p>
+    </div>
+
+    <div class="footer__links">
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer__bottom container">
+    <p>© 2025 Vyriq.ai. All rights reserved.</p>
+    <p>Built with ♥ for creators everywhere</p>
+  </div>
+</footer>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Mobile menu toggle
+  document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+</script>
+{% endblock %}

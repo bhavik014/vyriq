@@ -1,0 +1,33 @@
+﻿{% extends "base.html" %}
+{% block title %}Sign In — Vyriq{% endblock %}
+
+{% block body %}
+<div class="auth-page">
+  <a href="{{ url_for('index') }}" class="auth-logo">
+    <span class="logo-mark">V</span> Vyriq
+  </a>
+
+  <div class="auth-card">
+    <h1 class="auth-title">Welcome back</h1>
+    <p class="auth-sub">Sign in to your Vyriq account</p>
+
+    <form method="POST" action="{{ url_for('login') }}" class="auth-form">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Your password" required />
+      </div>
+      <button type="submit" class="btn btn--primary" style="width:100%;justify-content:center">
+        Sign in →
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      Don't have an account? <a href="{{ url_for('signup') }}">Sign up free →</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

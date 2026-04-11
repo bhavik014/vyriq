@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Payment Successful — Vyriq.ai{% endblock %}
+{% block body %}
+<div style="min-height:100vh;background:var(--obsidian);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;position:relative;overflow:hidden">
+  <!-- Background glow -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 50% 60%,rgba(196,150,58,.1),transparent);pointer-events:none"></div>
+
+  <a href="{{ url_for('index') }}" class="navbar__logo" style="margin-bottom:48px;position:relative">
+    <span class="logo-mark">V</span> Vyriq
+  </a>
+
+  <div style="background:var(--obsidian-2);border:1px solid rgba(196,150,58,.25);border-radius:24px;padding:48px 40px;max-width:480px;width:100%;text-align:center;position:relative;box-shadow:0 32px 80px rgba(0,0,0,.5)">
+
+    <!-- Success icon -->
+    <div style="width:72px;height:72px;border-radius:50%;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:2rem">
+      ✦
+    </div>
+
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Payment Confirmed</div>
+    <h1 style="font-size:2.2rem;color:#fff;margin-bottom:12px">You're in.</h1>
+    <p style="font-size:.95rem;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:32px">
+      Your plan is now active. You have full access to every Vyriq feature. A confirmation email is on its way.
+    </p>
+
+    <!-- What's next -->
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px;text-align:left;margin-bottom:24px">
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Next Steps</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:10px;font-size:.85rem;color:rgba(255,255,255,.55)">
+          <span style="color:#4ade80;font-weight:700">✓</span> Run your first unlimited post analysis
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:.85rem;color:rgba(255,255,255,.55)">
+          <span style="color:#4ade80;font-weight:700">✓</span> Check your weekly AI brief every Monday
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:.85rem;color:rgba(255,255,255,.55)">
+          <span style="color:#4ade80;font-weight:700">✓</span> Connect your social accounts
+        </div>
+      </div>
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="btn btn--gold btn--lg" style="width:100%;justify-content:center">
+      Open Your Dashboard →
+    </a>
+
+    <p style="margin-top:16px;font-size:.75rem;color:rgba(255,255,255,.25)">
+      Manage billing anytime from Dashboard → Billing
+    </p>
+  </div>
+</div>
+{% endblock %}

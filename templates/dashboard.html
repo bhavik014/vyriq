@@ -1,0 +1,473 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Vyriq.ai{% endblock %}
+
+{% block body %}
+<div class="dash-root">
+
+  <!-- ══ SIDEBAR ══════════════════════════════════════════════════ -->
+  <aside class="dash-sidebar">
+    <div class="dash-logo">
+      <span class="logo-mark">V</span> Vyriq
+    </div>
+
+    <nav class="dash-nav" id="sideNav">
+      <button class="dash-nav-item dash-nav-item--active" data-tab="overview">
+        <span>📊</span> Overview
+      </button>
+      <button class="dash-nav-item" data-tab="analyzer">
+        <span>✦</span> AI Analyzer
+      </button>
+      <button class="dash-nav-item" data-tab="history">
+        <span>📋</span> Post History
+      </button>
+      <button class="dash-nav-item" data-tab="billing">
+        <span>💳</span> Billing
+      </button>
+    </nav>
+
+    <div class="dash-sidebar__bottom">
+      <div class="dash-user">
+        <div class="dash-avatar">{{ current_user.initials }}</div>
+        <div>
+          <div class="dash-user-name">{{ current_user.name.split()[0] }}</div>
+          <div class="dash-user-plan">{{ plan_names[current_user.plan] }}</div>
+        </div>
+      </div>
+      <a href="{{ url_for('index') }}" class="dash-back-link">← Back to site</a>
+      <a href="{{ url_for('logout') }}" class="dash-back-link">Sign out</a>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ═════════════════════════════════════════════════════ -->
+  <main class="dash-main">
+
+    <div class="dash-topbar">
+      <div>
+        <h1 class="dash-page-title" id="pageTitle">Overview</h1>
+        <p class="dash-page-sub" id="pageSub">Your content intelligence at a glance</p>
+      </div>
+      <!-- Usage meter (Starter only) -->
+      {% if current_user.plan == 'starter' %}
+      <div id="usageMeter" style="display:flex;align-items:center;gap:12px">
+        <div>
+          <div style="font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:4px">Monthly Usage</div>
+          <div style="font-size:.82rem;color:var(--ink)">
+            <strong>{{ current_user.analysis_count }}</strong>
+            <span style="color:var(--ink-muted)"> / {{ current_user.monthly_limit }} analyses</span>
+          </div>
+          <div style="width:160px;height:4px;background:var(--line);border-radius:2px;margin-top:6px;overflow:hidden">
+            <div style="width:{{ [(current_user.analysis_count / current_user.monthly_limit * 100)|int, 100]|min }}%;height:100%;background:var(--gold);border-radius:2px;transition:width .3s"></div>
+          </div>
+        </div>
+        <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn--gold" style="padding:10px 18px;font-size:.72rem">
+          Upgrade →
+        </a>
+      </div>
+      {% else %}
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="pill pill--gold">✦ {{ plan_names[current_user.plan] }}</span>
+        <a href="{{ url_for('billing') }}" class="btn btn--outline-dark" style="padding:9px 16px;font-size:.72rem">Manage Billing</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="dash-content">
+
+      <!-- ───────── TAB: OVERVIEW ───────── -->
+      <div id="tab-overview" class="dash-tab">
+
+        <div class="dash-metrics">
+          <div class="dash-metric-card">
+            <div class="dash-metric-label">Total Posts Analyzed</div>
+            <div class="dash-metric-val">{{ posts|length }}</div>
+            <div class="dash-metric-delta up">↑ All time</div>
+          </div>
+          <div class="dash-metric-card">
+            <div class="dash-metric-label">Avg. Hook Score</div>
+            <div class="dash-metric-val">
+              {% if posts %}
+                {{ (posts | sum(attribute='hook_score') / posts|length)|int }}
+              {% else %}—{% endif %}
+            </div>
+            <div class="dash-metric-delta up">↑ Out of 100</div>
+          </div>
+          <div class="dash-metric-card">
+            <div class="dash-metric-label">Best Hook Score</div>
+            <div class="dash-metric-val">
+              {% if posts %}{{ posts|map(attribute='hook_score')|max }}{% else %}—{% endif %}
+            </div>
+            <div class="dash-metric-delta up">↑ Personal best</div>
+          </div>
+          <div class="dash-metric-card">
+            <div class="dash-metric-label">This Month</div>
+            <div class="dash-metric-val">{{ current_user.analysis_count }}</div>
+            <div class="dash-metric-delta up">
+              {% if current_user.plan == 'starter' %}
+                / {{ current_user.monthly_limit }} used
+              {% else %}
+                Unlimited
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-section">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Insights</h2>
+          </div>
+          <div class="insights-grid">
+            <div class="insight-card">
+              <div class="insight-icon" style="background:var(--gold-bg)">🎯</div>
+              <div>
+                <div class="insight-title">Best content day</div>
+                <div class="insight-value">Tuesday</div>
+                <div class="insight-sub">Your Tuesday posts average 3.2× more saves</div>
+              </div>
+            </div>
+            <div class="insight-card">
+              <div class="insight-icon" style="background:#f0fdf4">📈</div>
+              <div>
+                <div class="insight-title">Peak posting window</div>
+                <div class="insight-value">7–9 AM</div>
+                <div class="insight-sub">When your audience is most active</div>
+              </div>
+            </div>
+            <div class="insight-card">
+              <div class="insight-icon" style="background:var(--gold-bg)">✦</div>
+              <div>
+                <div class="insight-title">AI Plan</div>
+                <div class="insight-value">{{ plan_names[current_user.plan] }}</div>
+                <div class="insight-sub">
+                  {% if current_user.plan == 'starter' %}
+                    {{ current_user.analyses_remaining }} analyses left this month
+                  {% else %}
+                    Unlimited analyses
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="insight-card">
+              <div class="insight-icon" style="background:#f0fdf4">🏷️</div>
+              <div>
+                <div class="insight-title">Top hashtag cluster</div>
+                <div class="insight-value">#creator</div>
+                <div class="insight-sub">Driving the most reach in your niche</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-section">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Recent Analyses</h2>
+            <button class="link-btn" onclick="switchTab('analyzer')">Analyze new post →</button>
+          </div>
+          {% if posts %}
+          <div class="post-table">
+            <div class="table-header">
+              <span>Post</span><span>Score</span><span>Date</span>
+            </div>
+            {% for post in posts[:6] %}
+            <div class="table-row">
+              <span class="post-snippet">{{ post.content[:80] }}{% if post.content|length > 80 %}…{% endif %}</span>
+              <span>
+                <span class="hook-badge {% if post.hook_score >= 80 %}hook-great{% elif post.hook_score >= 60 %}hook-good{% else %}hook-ok{% endif %}">
+                  {{ post.hook_score }}
+                </span>
+              </span>
+              <span class="table-date">{{ post.created_at.strftime('%d %b') }}</span>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="empty-state">
+            No posts analyzed yet. <button class="link-btn" onclick="switchTab('analyzer')" style="display:inline">Analyze your first post →</button>
+          </div>
+          {% endif %}
+        </div>
+
+      </div><!-- /overview -->
+
+      <!-- ───────── TAB: ANALYZER ───────── -->
+      <div id="tab-analyzer" class="dash-tab hidden">
+        <div class="analyzer-box">
+          <div class="analyzer-header">
+            <div style="display:flex;align-items:center;gap:10px">
+              <h2 class="dash-section-title" style="margin-bottom:0;font-size:1.4rem">Post Analyzer</h2>
+              <span class="ai-chip">✦ AI-Powered</span>
+            </div>
+            <p>Paste any post caption below. Vyriq scores the hook 0–100 and gives you 3 specific improvements.</p>
+          </div>
+
+          {% if current_user.plan == 'starter' %}
+          <div style="background:rgba(196,150,58,.08);border:1px solid rgba(196,150,58,.2);border-radius:10px;padding:12px 16px;font-size:.82rem;color:var(--ink-secondary);display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <span>
+              <strong>{{ current_user.analyses_remaining }}</strong> of {{ current_user.monthly_limit }} analyses remaining this month
+              {% if current_user.analyses_remaining <= 5 %}&nbsp;— running low!{% endif %}
+            </span>
+            <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn--gold" style="padding:8px 16px;font-size:.72rem;flex-shrink:0">Upgrade for Unlimited →</a>
+          </div>
+          {% endif %}
+
+          <textarea id="postContent" class="analyze-textarea" rows="5"
+            placeholder="Paste your Instagram caption, LinkedIn post, or tweet here..."></textarea>
+
+          <button id="analyzeBtn" class="btn btn--gold btn--lg" onclick="runAnalysis()" style="width:100%;justify-content:center">
+            ✦ Analyze My Post
+          </button>
+
+          <div id="resultBox" class="result-box hidden">
+            <div class="score-row">
+              <div class="score-circle" id="scoreCircle">
+                <div class="score-inner">
+                  <span class="score-num" id="scoreNum">—</span>
+                  <span class="score-label">Score</span>
+                </div>
+              </div>
+              <div>
+                <div class="result-title">Hook Analysis</div>
+                <p class="result-summary" id="resultSummary"></p>
+              </div>
+            </div>
+            <div class="suggestions-box">
+              <div class="suggest-label">3 Improvements</div>
+              <ul id="suggestionList"></ul>
+            </div>
+          </div>
+
+          <!-- Limit reached banner -->
+          <div id="limitBanner" class="hidden" style="background:#fff8f0;border:1px solid rgba(196,150,58,.3);border-radius:12px;padding:20px;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:8px">🔒</div>
+            <div style="font-weight:600;margin-bottom:6px;color:var(--ink)">Monthly limit reached</div>
+            <p style="font-size:.85rem;color:var(--ink-secondary);margin-bottom:16px">
+              You've used all {{ current_user.monthly_limit }} analyses this month on the Starter plan.
+              Upgrade to Creator for unlimited analyses.
+            </p>
+            <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn--gold">
+              Upgrade to Creator — $29/mo →
+            </a>
+          </div>
+
+        </div>
+      </div><!-- /analyzer -->
+
+      <!-- ───────── TAB: HISTORY ───────── -->
+      <div id="tab-history" class="dash-tab hidden">
+        <div class="dash-section">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Post History</h2>
+            <span style="font-size:.82rem;color:var(--ink-muted)">{{ posts|length }} total</span>
+          </div>
+          {% if posts %}
+          <div class="post-card-list">
+            {% for post in posts %}
+            <div class="post-full-card">
+              <div class="post-full-top">
+                <span class="hook-badge {% if post.hook_score >= 80 %}hook-great{% elif post.hook_score >= 60 %}hook-good{% else %}hook-ok{% endif %}">
+                  {{ post.hook_score }}/100
+                </span>
+                <span class="post-date-sm">{{ post.created_at.strftime('%d %b %Y, %H:%M') }}</span>
+              </div>
+              <div class="post-full-text">"{{ post.content }}"</div>
+              {% if post.summary %}
+              <div class="post-full-summary">{{ post.summary }}</div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="empty-state">
+            No posts analyzed yet. <button class="link-btn" onclick="switchTab('analyzer')" style="display:inline">Go to Analyzer →</button>
+          </div>
+          {% endif %}
+        </div>
+      </div><!-- /history -->
+
+      <!-- ───────── TAB: BILLING ───────── -->
+      <div id="tab-billing" class="dash-tab hidden">
+        <div style="max-width:600px">
+          <!-- Current Plan Card -->
+          <div style="background:{% if current_user.plan != 'starter' %}var(--obsidian){% else %}#fff{% endif %};border:1px solid {% if current_user.plan != 'starter' %}rgba(196,150,58,.25){% else %}var(--line){% endif %};border-radius:20px;padding:32px;margin-bottom:20px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+              <div>
+                <div style="font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Current Plan</div>
+                <div style="font-family:'Instrument Serif',serif;font-size:1.9rem;color:{% if current_user.plan != 'starter' %}#fff{% else %}var(--ink){% endif %}">
+                  {{ plan_names[current_user.plan] }}
+                </div>
+              </div>
+              <span class="pill {% if current_user.plan != 'starter' %}pill--gold{% else %}pill--gold{% endif %}">
+                {% if current_user.plan == 'starter' %}Free{% elif current_user.plan == 'creator' %}$29 / mo{% else %}$79 / mo{% endif %}
+              </span>
+            </div>
+
+            <div style="border-top:1px solid {% if current_user.plan != 'starter' %}rgba(255,255,255,.08){% else %}var(--line){% endif %};padding-top:20px;display:flex;flex-direction:column;gap:8px">
+              {% if current_user.plan == 'starter' %}
+                <div style="font-size:.85rem;color:var(--ink-secondary);display:flex;justify-content:space-between">
+                  <span>Analyses used this month</span>
+                  <strong>{{ current_user.analysis_count }} / {{ current_user.monthly_limit }}</strong>
+                </div>
+                <div style="width:100%;height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:4px 0 8px">
+                  <div style="width:{{ [(current_user.analysis_count / current_user.monthly_limit * 100)|int, 100]|min }}%;height:100%;background:var(--gold);border-radius:3px"></div>
+                </div>
+              {% else %}
+                <div style="font-size:.85rem;color:rgba(255,255,255,.5);display:flex;justify-content:space-between">
+                  <span>Analyses this month</span>
+                  <strong style="color:rgba(255,255,255,.8)">{{ current_user.analysis_count }} (Unlimited)</strong>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Upgrade options (Starter only) -->
+          {% if current_user.plan == 'starter' %}
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+            <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px">
+              <div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:8px">Creator</div>
+              <div style="font-family:'Instrument Serif',serif;font-size:2.2rem;color:var(--ink);margin-bottom:8px">$29<span style="font-size:.9rem;color:var(--ink-muted);font-family:'Inter',sans-serif">/mo</span></div>
+              <ul style="list-style:none;font-size:.82rem;color:var(--ink-secondary);display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
+                <li>✓ Unlimited analyses</li>
+                <li>✓ Daily AI brief</li>
+                <li>✓ Hashtag intelligence</li>
+                <li>✓ Optimal timing engine</li>
+              </ul>
+              <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn--gold" style="width:100%;justify-content:center;padding:12px;font-size:.78rem">
+                Start 14-day trial →
+              </a>
+            </div>
+            <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px">
+              <div style="font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:8px">Agency</div>
+              <div style="font-family:'Instrument Serif',serif;font-size:2.2rem;color:var(--ink);margin-bottom:8px">$79<span style="font-size:.9rem;color:var(--ink-muted);font-family:'Inter',sans-serif">/mo</span></div>
+              <ul style="list-style:none;font-size:.82rem;color:var(--ink-secondary);display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
+                <li>✓ Everything in Creator</li>
+                <li>✓ Unlimited accounts</li>
+                <li>✓ White-label reports</li>
+                <li>✓ API access</li>
+              </ul>
+              <a href="{{ url_for('create_checkout_session', plan='agency') }}" class="btn btn--outline-dark" style="width:100%;justify-content:center;padding:12px;font-size:.78rem">
+                Start 14-day trial →
+              </a>
+            </div>
+          </div>
+          <p style="font-size:.78rem;color:var(--ink-muted);text-align:center">🔒 &nbsp;14-day free trial · Cancel anytime · No contracts</p>
+
+          {% else %}
+          <!-- Manage subscription -->
+          <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px">
+            <div style="font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:12px">Subscription Management</div>
+            <p style="font-size:.88rem;color:var(--ink-secondary);margin-bottom:16px;line-height:1.65">
+              Use the Stripe Billing Portal to update your payment method, download invoices, or cancel your subscription.
+            </p>
+            <a href="{{ url_for('billing') }}" class="btn btn--gold" style="font-size:.8rem">
+              Open Billing Portal →
+            </a>
+          </div>
+          {% endif %}
+
+        </div>
+      </div><!-- /billing -->
+
+    </div><!-- /dash-content -->
+  </main>
+</div><!-- /dash-root -->
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const ANALYZER_URL = "{{ url_for('analyze') }}";
+
+// ── Tab switching ──────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.dash-tab').forEach(t => t.classList.add('hidden'));
+  document.querySelectorAll('.dash-nav-item').forEach(b => b.classList.remove('dash-nav-item--active'));
+
+  document.getElementById('tab-' + name)?.classList.remove('hidden');
+  document.querySelector(`[data-tab="${name}"]`)?.classList.add('dash-nav-item--active');
+
+  const titles = {
+    overview: ['Overview', 'Your content intelligence at a glance'],
+    analyzer: ['AI Analyzer', 'Paste a post and get your score in seconds'],
+    history:  ['Post History', 'All your analyzed posts'],
+    billing:  ['Billing', 'Manage your plan and subscription'],
+  };
+  document.getElementById('pageTitle').textContent = titles[name]?.[0] || name;
+  document.getElementById('pageSub').textContent   = titles[name]?.[1] || '';
+}
+
+document.querySelectorAll('.dash-nav-item').forEach(btn => {
+  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+});
+
+// ── AI Analysis ────────────────────────────────────────────────────
+async function runAnalysis() {
+  const content = document.getElementById('postContent').value.trim();
+  if (!content) {
+    alert('Please paste a post first.');
+    return;
+  }
+
+  const btn     = document.getElementById('analyzeBtn');
+  const result  = document.getElementById('resultBox');
+  const limited = document.getElementById('limitBanner');
+
+  btn.textContent = '✦ Analyzing...';
+  btn.disabled    = true;
+  result.classList.add('hidden');
+  limited.classList.add('hidden');
+
+  try {
+    const res  = await fetch(ANALYZER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content }),
+    });
+    const data = await res.json();
+
+    if (data.error === 'limit_reached') {
+      limited.classList.remove('hidden');
+      return;
+    }
+
+    if (data.error) {
+      alert(data.message || 'Analysis failed. Check your OPENAI_API_KEY.');
+      return;
+    }
+
+    // Populate results
+    const score = data.hookScore || 0;
+    document.getElementById('scoreNum').textContent = score;
+
+    // Animate the conic gradient on the score circle
+    const pct = (score / 100) * 360;
+    document.getElementById('scoreCircle').style.background =
+      `conic-gradient(var(--gold) ${pct}deg, var(--canvas-alt) ${pct}deg)`;
+
+    document.getElementById('resultSummary').textContent = data.summary || '';
+
+    const ul = document.getElementById('suggestionList');
+    ul.innerHTML = '';
+    (data.suggestions || []).forEach((s, i) => {
+      ul.innerHTML += `
+        <li class="suggest-item-dash">
+          <span class="suggest-num-dash">${i + 1}</span> ${s}
+        </li>`;
+    });
+
+    result.classList.remove('hidden');
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  } catch (err) {
+    alert('Network error. Are you connected to the internet?');
+    console.error(err);
+  } finally {
+    btn.textContent = '✦ Analyze My Post';
+    btn.disabled    = false;
+  }
+}
+
+// Allow Ctrl+Enter to submit
+document.getElementById('postContent').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) runAnalysis();
+});
+</script>
+{% endblock %}

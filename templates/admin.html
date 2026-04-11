@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin Panel — Vyriq.ai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"/>
+  <style>
+    body { background: #0A0908; }
+    .admin-wrap { max-width: 1200px; margin: 0 auto; padding: 0 28px 60px; }
+
+    /* Topbar */
+    .admin-topbar {
+      background: var(--obsidian-2);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 16px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .admin-topbar-logo { display:flex;align-items:center;gap:10px;font-family:'Instrument Serif',serif;font-size:1.3rem;color:#fff; }
+    .admin-title { font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold); }
+
+    /* Metric cards */
+    .admin-metrics { display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:36px; }
+    .admin-metric {
+      background:var(--obsidian-2);border:1px solid rgba(255,255,255,.07);
+      border-radius:14px;padding:20px;
+    }
+    .admin-metric-label { font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px; }
+    .admin-metric-val   { font-family:'Instrument Serif',serif;font-size:2.2rem;color:#fff;line-height:1; }
+    .admin-metric-sub   { font-size:.72rem;color:rgba(255,255,255,.3);margin-top:4px; }
+    .admin-metric--gold { border-color:rgba(196,150,58,.25); }
+    .admin-metric--gold .admin-metric-val { color:var(--gold); }
+
+    /* Section */
+    .admin-section { background:var(--obsidian-2);border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;margin-bottom:24px; }
+    .admin-section-header { padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between; }
+    .admin-section-title  { font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4); }
+
+    /* Table */
+    .admin-table { width:100%;border-collapse:collapse; }
+    .admin-table th {
+      text-align:left;padding:10px 24px;
+      font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      color:rgba(255,255,255,.25);
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
+    .admin-table td { padding:13px 24px;font-size:.84rem;color:rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.04); }
+    .admin-table tr:last-child td { border-bottom:none; }
+    .admin-table tr:hover td { background:rgba(255,255,255,.02); }
+
+    /* Plan pill */
+    .plan-pill { display:inline-block;padding:2px 10px;border-radius:100px;font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase; }
+    .plan-pill--starter { background:rgba(255,255,255,.07);color:rgba(255,255,255,.4); }
+    .plan-pill--creator { background:rgba(196,150,58,.15);color:var(--gold);border:1px solid rgba(196,150,58,.3); }
+    .plan-pill--agency  { background:rgba(196,150,58,.25);color:var(--gold);border:1px solid rgba(196,150,58,.4); }
+
+    /* Inline form */
+    .plan-form { display:flex;align-items:center;gap:6px; }
+    .plan-select {
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+      border-radius:6px;padding:4px 8px;font-size:.75rem;
+      color:rgba(255,255,255,.7);font-family:'Inter',sans-serif;outline:none;cursor:pointer;
+    }
+    .plan-select option { background:#1a1a1a; }
+    .btn-xs {
+      padding:4px 10px;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+      background:var(--gold);color:var(--obsidian);border:none;border-radius:4px;cursor:pointer;
+      font-family:'Inter',sans-serif;
+    }
+    .btn-del { background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.2); }
+    .btn-del:hover { background:rgba(239,68,68,.25); }
+  </style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="admin-topbar">
+  <div>
+    <div class="admin-topbar-logo"><span class="logo-mark">V</span> Vyriq</div>
+    <div class="admin-title">Admin Panel</div>
+  </div>
+  <div style="display:flex;gap:10px">
+    <a href="{{ url_for('index') }}" class="btn btn--ghost-light" style="font-size:.75rem;padding:8px 14px;text-transform:uppercase;letter-spacing:.06em">← Site</a>
+    <a href="{{ url_for('admin_logout') }}" class="btn btn--outline-light" style="font-size:.75rem;padding:8px 14px;text-transform:uppercase;letter-spacing:.06em">Log Out</a>
+  </div>
+</div>
+
+<div class="admin-wrap">
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div style="margin-bottom:20px">
+        {% for cat, msg in messages %}
+          <div class="flash flash--{{ cat }}">{{ msg }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Metrics -->
+  <div class="admin-metrics">
+    <div class="admin-metric admin-metric--gold">
+      <div class="admin-metric-label">Est. MRR</div>
+      <div class="admin-metric-val">${{ mrr }}</div>
+      <div class="admin-metric-sub">{{ plan_counts.creator }} creator + {{ plan_counts.agency }} agency</div>
+    </div>
+    <div class="admin-metric">
+      <div class="admin-metric-label">Total Users</div>
+      <div class="admin-metric-val">{{ users|length }}</div>
+      <div class="admin-metric-sub">All plans</div>
+    </div>
+    <div class="admin-metric">
+      <div class="admin-metric-label">Paid Users</div>
+      <div class="admin-metric-val">{{ plan_counts.creator + plan_counts.agency }}</div>
+      <div class="admin-metric-sub">Creator + Agency</div>
+    </div>
+    <div class="admin-metric">
+      <div class="admin-metric-label">Total Analyses</div>
+      <div class="admin-metric-val">{{ total_posts }}</div>
+      <div class="admin-metric-sub">All time</div>
+    </div>
+  </div>
+
+  <!-- Plan breakdown -->
+  <div class="admin-metrics" style="grid-template-columns:repeat(3,1fr)">
+    <div class="admin-metric">
+      <div class="admin-metric-label">Starter</div>
+      <div class="admin-metric-val">{{ plan_counts.starter }}</div>
+      <div class="admin-metric-sub">Free plan</div>
+    </div>
+    <div class="admin-metric">
+      <div class="admin-metric-label">Creator</div>
+      <div class="admin-metric-val">{{ plan_counts.creator }}</div>
+      <div class="admin-metric-sub">$29/mo</div>
+    </div>
+    <div class="admin-metric">
+      <div class="admin-metric-label">Agency</div>
+      <div class="admin-metric-val">{{ plan_counts.agency }}</div>
+      <div class="admin-metric-sub">$79/mo</div>
+    </div>
+  </div>
+
+  <!-- Users Table -->
+  <div class="admin-section">
+    <div class="admin-section-header">
+      <div class="admin-section-title">All Users ({{ users|length }})</div>
+    </div>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Plan</th>
+          <th>Analyses</th>
+          <th>Joined</th>
+          <th>Stripe ID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>
+            <div style="font-weight:600;color:rgba(255,255,255,.85)">{{ user.name }}</div>
+            <div style="font-size:.72rem;color:rgba(255,255,255,.35)">{{ user.email }}</div>
+          </td>
+          <td>
+            <span class="plan-pill plan-pill--{{ user.plan }}">{{ plan_names[user.plan] }}</span>
+          </td>
+          <td style="color:rgba(255,255,255,.5)">{{ user.analysis_count }}</td>
+          <td style="font-size:.75rem;color:rgba(255,255,255,.35)">
+            {{ user.created_at.strftime('%d %b %Y') }}
+          </td>
+          <td style="font-size:.68rem;color:rgba(255,255,255,.25)">
+            {{ user.stripe_customer_id[:14] + '...' if user.stripe_customer_id else '—' }}
+          </td>
+          <td>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <!-- Override plan -->
+              <form method="POST" action="{{ url_for('admin_set_plan') }}" class="plan-form">
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <select name="plan" class="plan-select">
+                  <option value="starter" {% if user.plan=='starter' %}selected{% endif %}>Starter</option>
+                  <option value="creator" {% if user.plan=='creator' %}selected{% endif %}>Creator</option>
+                  <option value="agency"  {% if user.plan=='agency'  %}selected{% endif %}>Agency</option>
+                </select>
+                <button type="submit" class="btn-xs">Set</button>
+              </form>
+              <!-- Delete user -->
+              <form method="POST" action="{{ url_for('admin_delete_user') }}"
+                    onsubmit="return confirm('Delete {{ user.email }}? This is permanent.')">
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <button type="submit" class="btn-xs btn-del">Del</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" style="text-align:center;color:rgba(255,255,255,.25);padding:40px">
+            No users yet.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>
