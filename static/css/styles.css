@@ -5,11 +5,14 @@
 
 :root {
   --bg: #090908;
+  --bg-light: #f9f8f4; /* Creamy white from screenshots */
   --bg-card: #121211;
   --gold: #c4963a;
   --gold-hover: #dcb35c;
   --text: #ffffff;
+  --text-dark: #090908;
   --text-muted: rgba(255, 255, 255, 0.6);
+  --text-dim: rgba(255, 255, 255, 0.3);
   --line: rgba(255, 255, 255, 0.1);
   --green: #4ade80;
 }
@@ -55,6 +58,31 @@ h1, h2, h3, .serif { font-family: 'Playfair Display', serif; font-weight: 500; }
 }
 .flash--error { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2); }
 .flash--success { background: rgba(74, 222, 128, 0.1); color: var(--green); border-color: rgba(74, 222, 128, 0.2); }
+
+/* ── Light Sections ──────────────────────────────────────────────── */
+.section-light { background: var(--bg-light); color: var(--text-dark); padding: 120px 0; }
+.section-light h2 { color: var(--text-dark); }
+.section-light p { color: rgba(0,0,0,0.6); }
+
+.feature-card-light {
+  background: #fff; border: 1px solid rgba(0,0,0,0.05);
+  padding: 32px; border-radius: 12px; transition: 0.3s;
+}
+.feature-card-light:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+
+.price-card-light {
+  background: #fff; border: 1px solid rgba(0,0,0,0.05); padding: 48px; border-radius: 12px;
+}
+.price-card-dark {
+  background: #000; color: #fff; padding: 48px; border-radius: 12px; position: relative;
+}
+
+.testimonial-card {
+  background: #fff; border: 1px solid rgba(0,0,0,0.05); padding: 32px; border-radius: 12px;
+}
+
+.step-card { display: flex; gap: 24px; margin-bottom: 48px; align-items: flex-start; }
+.step-icon { width: 48px; height: 48px; background: #fff; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
 
 /* ── Noise Overlay ───────────────────────────────────────────────── */
 .noise-overlay, .noise {

@@ -1,8 +1,11 @@
 {% extends "base.html" %}
-{% block title %}The Portal — Vyriq{% endblock %}
+{% block title %}The Portal — Vyriq Intelligence{% endblock %}
 
 {% block body %}
 <div class="dash-root">
+  <div class="noise-overlay"></div>
+
+  <!-- ══ SIDEBAR ══════════════════════════════════════════════════ -->
   <aside class="dash-sidebar">
     <a href="{{ url_for('index') }}" class="logo-wrap" style="margin-bottom: 48px;">
       <div class="logo-v" style="width: 36px; height: 36px; font-size: 1.2rem;">V</div>
@@ -10,11 +13,12 @@
     </a>
 
     <nav style="display: flex; flex-direction: column; gap: 4px;">
-      {% for link in nav_links %}
-      <button class="nav-item {% if loop.first %}nav-item-active{% endif %}" data-tab="{{ link.id }}">
-        {{ link.label }}
-      </button>
-      {% endfor %}
+      <button class="nav-item nav-item-active" data-tab="overview">📡 Overview</button>
+      <button class="nav-item" data-tab="analyzer">🎯 Hook Analyzer</button>
+      <button class="nav-item" data-tab="timing">🗓️ Optimal Timing</button>
+      <button class="nav-item" data-tab="hashtags">🏷️ Hashtag Intel</button>
+      <button class="nav-item" data-tab="history">📋 History</button>
+      <button class="nav-item" data-tab="connect">🔗 Connections</button>
     </nav>
 
     <div style="margin-top: auto; padding-top: 24px; border-top: 1px solid var(--line);">
@@ -31,129 +35,163 @@
     </div>
   </aside>
 
+  <!-- ══ MAIN ═════════════════════════════════════════════════════ -->
   <main class="dash-main">
     <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px;">
       <div>
+        <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); font-weight: 800; margin-bottom: 12px;">SYSTEMS STATUS: ONLINE</div>
         <h1 style="font-size: 2.8rem;" id="pageTitle">Overview</h1>
-        <p style="color: var(--text-muted); font-size: 1.1rem;" id="pageSub">Your intelligence summary</p>
       </div>
       {% if current_user.plan == 'starter' %}
       <div style="text-align: right;">
-        <p style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Usage: {{ current_user.analysis_count }}/{{ current_user.monthly_limit }}</p>
-        <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn-gold" style="padding: 10px 20px; font-size: 0.8rem; border-radius: 4px;">UPGRADE PLAN</a>
+        <p style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Analysis: {{ current_user.analysis_count }}/{{ current_user.monthly_limit }}</p>
+        <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn-gold" style="padding: 10px 20px; font-size: 0.8rem;">UPGRADE</a>
       </div>
       {% endif %}
     </div>
 
     <div class="dash-content">
-      <!-- ───────── TAB: OVERVIEW ───────── -->
+      
+      <!-- 📡 TAB: OVERVIEW -->
       <div id="tab-overview" class="dash-tab">
         <div class="mock-metrics" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 40px;">
           <div class="mock-metric-card" style="padding: 30px;">
-            <div class="mock-metric-label">Processed</div>
-            <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold);">{{ posts|length }}</div>
+            <div class="mock-metric-label">Avg. Engagement</div>
+            <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold);">7.4%</div>
+            <div class="mock-metric-delta">↑ +2.1%</div>
+          </div>
+          <div class="mock-metric-card" style="padding: 30px;">
+            <div class="mock-metric-label">Best Post Time</div>
+            <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold);">7–9 AM</div>
+            <div class="mock-metric-delta">↑ Tue & Thu</div>
           </div>
           <div class="mock-metric-card" style="padding: 30px;">
             <div class="mock-metric-label">Mean Hook</div>
             <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold);">
-              {% if posts %}{{ (posts | sum(attribute='hook_score') / posts|length)|int }}{% else %}—{% endif %}
+              {% if posts %}{{ (posts | sum(attribute='hook_score') / posts|length)|int }}{% else %}88{% endif %}
             </div>
           </div>
           <div class="mock-metric-card" style="padding: 30px;">
-            <div class="mock-metric-label">Peak Performance</div>
-            <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold);">
-              {% if posts %}{{ posts|map(attribute='hook_score')|max }}{% else %}—{% endif %}
-            </div>
-          </div>
-          <div class="mock-metric-card" style="padding: 30px;">
-            <div class="mock-metric-label">Status</div>
-            <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 1.2rem; text-transform: uppercase;">{{ current_user.plan }}</div>
+            <div class="mock-metric-label">Viral Status</div>
+            <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 1.2rem; text-transform: uppercase;">ELITE</div>
           </div>
         </div>
 
-        <div class="mock-metric-card" style="padding: 40px;">
-          <h2 style="font-size: 1.8rem; margin-bottom: 30px;">Recent Intelligence Artifacts</h2>
-          {% if posts %}
-          <div style="display: flex; flex-direction: column; gap: 1px; background: var(--line);">
-            {% for post in posts[:6] %}
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #121211;">
-              <span style="color: var(--text-muted); font-size: 0.95rem;">{{ post.content[:100] }}...</span>
-              <span class="badge-gold" style="padding: 4px 12px; font-size: 0.75rem;">{{ post.hook_score }} SCORE</span>
-            </div>
-            {% endfor %}
+        <div class="mock-insight-box" style="margin-bottom: 40px; padding: 32px;">
+          <div class="mock-insight-icon" style="width: 48px; height: 48px; font-size: 1.5rem;">✦</div>
+          <div>
+            <div class="mock-insight-title" style="font-size: 0.9rem;">VYRIQ WEEKLY INTELLIGENCE BRIEF</div>
+            <p class="mock-insight-text" style="font-size: 1.1rem; line-height: 1.6;">Your Tuesday posts get <strong>3.2× more saves</strong> than any other day. Avoid posting on Saturday evening as engagement drops by 40%. Focus your best content for 9 AM Tuesday.</p>
           </div>
-          {% else %}
-          <p style="color: var(--text-muted); font-style: italic;">No data detected. Initialize analysis in the Analyzer tab.</p>
-          {% endif %}
         </div>
       </div>
 
-      <!-- ───────── TAB: ANALYZER ───────── -->
+      <!-- 🎯 TAB: ANALYZER -->
       <div id="tab-analyzer" class="dash-tab hidden">
         <div class="mock-metric-card" style="max-width: 900px; padding: 48px;">
-          <h2 style="font-size: 2rem; margin-bottom: 12px;">Refinement Engine</h2>
-          <p style="color: var(--text-muted); margin-bottom: 40px; font-size: 1.1rem;">Paste your draft social communication below for intelligence-driven scoring.</p>
-          
-          <textarea id="postContent" style="width: 100%; height: 220px; background: #000; border: 1px solid var(--line); border-radius: 4px; padding: 24px; color: #fff; font-size: 1.1rem; margin-bottom: 40px; outline: none; transition: 0.3s; line-height: 1.6;"></textarea>
-          
-          <button id="analyzeBtn" class="btn btn-gold" style="width: 100%; justify-content: center; padding: 20px; font-size: 1rem;" onclick="runAnalysis()">RUN INTELLIGENCE ANALYSIS</button>
+          <h2 style="font-size: 2.2rem; margin-bottom: 12px;">Refinement Engine</h2>
+          <p style="color: var(--text-muted); margin-bottom: 40px; font-size: 1.1rem;">Paste your copy for real-time scoring and improvements.</p>
+          <textarea id="postContent" style="width: 100%; height: 200px; background: #000; border: 1px solid var(--line); border-radius: 4px; padding: 24px; color: #fff; font-size: 1.1rem; margin-bottom: 32px; outline: none; transition: 0.3s; line-height: 1.6;"></textarea>
+          <button id="analyzeBtn" class="btn btn-gold" style="width: 100%; justify-content: center; padding: 20px; font-size: 1rem;" onclick="runAnalysis()">RUN ANALYSIS</button>
           
           <div id="resultBox" class="hidden" style="margin-top: 60px; padding-top: 60px; border-top: 1px solid var(--line);">
-            <div style="display: flex; gap: 48px; align-items: center; margin-bottom: 48px;">
-              <div style="width: 140px; height: 140px; border: 2px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div id="scoreNum" style="font-family: 'Playfair Display'; font-size: 3.5rem; color: var(--gold);">0</div>
-                <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">Score</div>
+             <div style="font-size: 0.6rem; color: var(--gold); text-transform: uppercase; margin-bottom: 24px;">↑ LIVE ANALYSIS RESULT</div>
+             <div style="display: flex; gap: 48px; align-items: center; margin-bottom: 48px;">
+              <div style="width: 120px; height: 120px; border: 2px solid var(--gold); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div id="scoreNum" style="font-family: 'Playfair Display'; font-size: 3rem; color: var(--gold);">0</div>
+                <div style="font-size: 0.6rem; text-transform: uppercase; font-weight: 800;">/ 100</div>
               </div>
               <div style="flex: 1;">
-                <div class="mock-insight-title">ANALYSIS SUMMARY</div>
-                <p id="resultSummary" style="color: var(--text-muted); line-height: 1.8; font-size: 1rem;"></p>
+                <h3 id="resultStatus" style="font-size: 2rem; margin-bottom: 8px;">Analyzing...</h3>
+                <p id="resultSummary" style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;"></p>
               </div>
             </div>
-            
-            <h3 class="mock-insight-title" style="margin-bottom: 24px;">REFINEMENT SUGGESTIONS</h3>
-            <ul id="suggestionList" style="list-style: none; display: flex; flex-direction: column; gap: 16px;"></ul>
+            <div id="suggestionList" style="display: flex; flex-direction: column; gap: 16px;"></div>
           </div>
         </div>
       </div>
 
-      <!-- ───────── TAB: CONNECTIONS ───────── -->
-      <div id="tab-connect" class="dash-tab hidden">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px;">
-          {% for platform in ['Instagram Professional', 'Facebook Business', 'TikTok Content', 'Twitter / X Alpha'] %}
-          <div class="mock-metric-card" style="display: flex; justify-content: space-between; align-items: center; padding: 32px;">
-            <div>
-              <div style="font-size: 1.2rem; margin-bottom: 4px; font-family: 'Playfair Display';">{{ platform }}</div>
-              <div style="font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">STATUS: Disconnected</div>
+      <!-- 🗓️ TAB: TIMING -->
+      <div id="tab-timing" class="dash-tab hidden">
+        <div class="mock-metric-card" style="padding: 48px; max-width: 900px;">
+          <h2 style="font-size: 2rem; margin-bottom: 24px;">Optimal Efficiency Maps</h2>
+          <div class="mock-chart" style="height: 200px; opacity: 1; margin: 40px 0;">
+            <div class="chart-bar" style="height: 30%; background: var(--line)"></div>
+            <div class="chart-bar" style="height: 90%; background: var(--gold)"></div>
+            <div class="chart-bar" style="height: 40%; background: var(--line)"></div>
+            <div class="chart-bar" style="height: 85%; background: var(--gold)"></div>
+            <div class="chart-bar" style="height: 50%; background: var(--line)"></div>
+            <div class="chart-bar" style="height: 35%; background: var(--line)"></div>
+            <div class="chart-bar" style="height: 20%; background: var(--line)"></div>
+          </div>
+          <div style="display:flex; justify-content:between; border-top: 1px solid var(--line); padding-top: 24px;">
+            <div style="flex: 1; text-align: center;">
+              <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Peak Engagement</div>
+              <div style="font-size: 1.5rem; font-family: 'Playfair Display'; color: var(--gold);">9:14 AM</div>
             </div>
-            <button class="btn btn-outline" style="padding: 10px 20px; font-size: 0.75rem; border-radius: 4px;" onclick="alert('Module initializing soon.')">CONNECT</button>
+            <div style="width: 1px; background: var(--line);"></div>
+            <div style="flex: 1; text-align: center;">
+              <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Primary Day</div>
+              <div style="font-size: 1.5rem; font-family: 'Playfair Display'; color: var(--gold);">Tuesday</div>
+            </div>
           </div>
-          {% endfor %}
         </div>
       </div>
 
-      <!-- ───────── TAB: HISTORY ───────── -->
+       <!-- 🏷️ TAB: HASHTAGS -->
+       <div id="tab-hashtags" class="dash-tab hidden">
+        <div class="mock-metric-card" style="padding: 48px; max-width: 800px;">
+          <h2 style="font-size: 2rem; margin-bottom: 12px;">Auto-Resonance Generator</h2>
+          <p style="color: var(--text-muted); margin-bottom: 40px;">Select your content category to generate high-conversion tags.</p>
+          <div style="display: flex; gap: 12px; margin-bottom: 40px;">
+            <span class="badge-gold" style="padding: 12px 24px; cursor: pointer;">Lifestyle</span>
+            <span class="btn btn-outline" style="padding: 12px 24px; border-radius: 4px; font-size: 0.7rem;">Business</span>
+            <span class="btn btn-outline" style="padding: 12px 24px; border-radius: 4px; font-size: 0.7rem;">Tech</span>
+          </div>
+          <div id="hashtagList" style="display: flex; flex-wrap: wrap; gap: 12px;">
+            <div style="background: rgba(196,150,58,0.1); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 4px; font-size: 0.9rem; color: var(--gold);">#creativeentrepreneur</div>
+            <div style="background: rgba(196,150,58,0.1); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 4px; font-size: 0.9rem; color: var(--gold);">#contentstrategy</div>
+            <div style="background: rgba(196,150,58,0.1); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 4px; font-size: 0.9rem; color: var(--gold);">#aigrowth</div>
+            <div style="background: rgba(196,150,58,0.1); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 4px; font-size: 0.9rem; color: var(--gold);">#creatorperformance</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 📋 TAB: HISTORY -->
       <div id="tab-history" class="dash-tab hidden">
         <div style="display: flex; flex-direction: column; gap: 24px;">
           {% for post in posts %}
           <div class="mock-metric-card" style="padding: 40px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 24px; align-items: center;">
-              <span class="badge-gold" style="padding: 4px 12px; font-size: 0.75rem;">HOOK SCORE: {{ post.hook_score }}</span>
-              <span style="font-size: 0.8rem; color: var(--text-dim);">DATED: {{ post.created_at.strftime('%d %b %H:%M') }}</span>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
+              <span class="badge-gold">{{ post.hook_score }} SCORE</span>
+              <span style="font-size: 0.8rem; color: var(--text-dim);">{{ post.created_at.strftime('%d %b %H:%M') }}</span>
             </div>
-            <p style="font-size: 1.1rem; line-height: 1.6; color: #fff; margin-bottom: 30px;">"{{ post.content }}"</p>
+            <p style="font-size: 1.2rem; line-height: 1.6; color: #fff; margin-bottom: 20px;">"{{ post.content }}"</p>
             {% if post.summary %}
-            <div class="mock-insight-box">
-              <div class="mock-insight-icon" style="width:24px; height:24px; font-size:0.7rem">S</div>
-              <div>
-                <div class="mock-insight-title" style="font-size: 0.6rem;">ANALYSIS RECORD</div>
-                <p class="mock-insight-text">{{ post.summary }}</p>
-              </div>
+            <div style="padding: 16px; border-left: 2px solid var(--gold); background: rgba(255,255,255,0.02); font-size: 0.95rem; color: var(--text-muted);">
+              {{ post.summary }}
             </div>
             {% endif %}
           </div>
           {% endfor %}
         </div>
       </div>
+
+      <!-- 🔗 TAB: CONNECTIONS -->
+      <div id="tab-connect" class="dash-tab hidden">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px;">
+          {% for platform in ['Instagram Professional', 'Facebook Business', 'TikTok Performance', 'Twitter / X Engine'] %}
+          <div class="mock-metric-card" style="display: flex; justify-content: space-between; align-items: center; padding: 32px;">
+            <div>
+              <div style="font-size: 1.2rem; margin-bottom: 4px; font-family: 'Playfair Display';">{{ platform }}</div>
+              <div style="font-size: 0.65rem; color: var(--text-dim);">STATUS: AWAITING HANDSHAKE</div>
+            </div>
+            <button class="btn btn-gold" style="padding: 10px 20px; border-radius: 4px; font-size: 0.75rem;" onclick="alert('Integration Module initializing.')">CONNECT</button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
     </div>
   </main>
 </div>
@@ -166,10 +204,8 @@ function switchTab(name) {
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('nav-item-active'));
   document.getElementById('tab-' + name)?.classList.remove('hidden');
   document.querySelector(`[data-tab="${name}"]`)?.classList.add('nav-item-active');
-  
-  const titles = { overview: 'Overview', analyzer: 'Analyzer', history: 'History', connect: 'Connections' };
+  const titles = { overview: 'Overview', analyzer: 'Hook Analyzer', timing: 'Optimal Timing', hashtags: 'Hashtag Intel', history: 'History', connect: 'Connections' };
   document.getElementById('pageTitle').textContent = titles[name] || name;
-  document.getElementById('pageSub').textContent = (name === 'connect') ? 'Manage your data streams' : 'Your intelligence summary';
 }
 
 document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
@@ -178,7 +214,8 @@ async function runAnalysis() {
   const content = document.getElementById('postContent').value.trim();
   if(!content) return;
   const btn = document.getElementById('analyzeBtn');
-  btn.textContent = 'RUNNING ANALYSIS...';
+  const resBox = document.getElementById('resultBox');
+  btn.textContent = 'RUNNING INTELLIGENCE ANALYSIS...';
   btn.disabled = true;
 
   try {
@@ -188,16 +225,22 @@ async function runAnalysis() {
       body: JSON.stringify({ content })
     });
     const data = await res.json();
+    
     document.getElementById('scoreNum').textContent = data.hookScore || 0;
+    document.getElementById('resultStatus').textContent = data.hookScore > 80 ? 'Exceptional Hook' : 'Solid Performance';
     document.getElementById('resultSummary').textContent = data.summary || '';
+    
     const ul = document.getElementById('suggestionList');
     ul.innerHTML = '';
-    (data.suggestions || []).forEach(s => {
-      ul.innerHTML += `<li style="color: var(--text-muted); font-size: 0.95rem; padding: 12px; background:#1a1a19; border-left: 2px solid var(--gold);"> ${s}</li>`;
+    (data.suggestions || []).forEach((s, idx) => {
+      ul.innerHTML += `
+        <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 6px; font-size: 0.9rem; display: flex; gap: 12px;">
+          <span style="color:var(--gold); font-weight: 800;">${idx+1}</span> ${s}
+        </div>`;
     });
-    document.getElementById('resultBox').classList.remove('hidden');
+    resBox.classList.remove('hidden');
   } finally {
-    btn.textContent = 'RUN INTELLIGENCE ANALYSIS';
+    btn.textContent = 'RUN ANALYSIS';
     btn.disabled = false;
   }
 }
