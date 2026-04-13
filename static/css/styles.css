@@ -1,36 +1,24 @@
 /* =====================================================================
-   Vyriq.ai v3 — "Old Money" (Quiet Luxury) Design System
+   Vyriq.ai v4 — "Vintage Luxury" Design System
    Palette: Obsidian, Champagne Gold, Pearl Cream
    ===================================================================== */
 
 :root {
-  /* Surface Colors */
-  --bg-dark: #0a0a0a;            /* Deep Obsidian */
-  --bg-light: #fdfcf0;           /* Pearl Cream */
-  --bg-card: #141414;            /* Dark Card */
-  
-  /* Brand Colors */
-  --accent-gold: #c4963a;        /* Champagne Gold */
+  --bg-dark: #0a0a0a;
+  --bg-light: #fdfcf0;
+  --bg-card: #141414;
+  --accent-gold: #c4963a;
   --accent-gold-soft: #d4af37;
   --accent-muted: rgba(196, 150, 58, 0.2);
-  
-  /* Text */
-  --text-main: #fdfcf0;          /* Pearl text on dark */
+  --text-main: #fdfcf0;
   --text-muted: rgba(253, 252, 240, 0.6);
   --text-dim: rgba(253, 252, 240, 0.3);
-  --text-dark: #0a0a0a;
-
-  /* Lines & Borders */
   --border-classy: rgba(196, 150, 58, 0.2);
   --line: rgba(253, 252, 240, 0.08);
-
-  /* Spacing & Radii */
-  --r-lg: 12px;                  /* Sharper, more tailord */
-  --r-md: 6px;
-  --r-sm: 4px;
+  --r-lg: 1px; /* Very sharp borders for vintage look */
+  --r-md: 1px;
 }
 
-/* ── Reset & Core ────────────────────────────────────────────────── */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   background: var(--bg-dark);
@@ -41,88 +29,29 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Typo ────────────────────────────────────────────────────────── */
-h1, h2, h3, .serif { 
-  font-family: 'Playfair Display', serif; 
-  font-weight: 400; 
-  letter-spacing: -0.02em;
-}
+h1, h2, h3, .serif { font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.01em; }
 
-.text-gold {
-  color: var(--accent-gold);
-}
-
-/* ── Layout ──────────────────────────────────────────────────────── */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 40px;
-}
-
-/* ── Buttons ─────────────────────────────────────────────────────── */
-.btn {
-  display: inline-flex; align-items: center; gap: 12px;
-  padding: 14px 32px; border-radius: 2px; /* Square/Tailored look */
-  font-weight: 500; font-size: 0.85rem; text-decoration: none;
-  text-transform: uppercase; letter-spacing: 2px;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  cursor: pointer; border: none;
-}
-
-.btn--gold {
-  background: var(--accent-gold);
-  color: var(--bg-dark);
-}
-.btn--gold:hover {
-  background: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(196, 150, 58, 0.2);
-}
-
-.btn--outline {
-  background: transparent;
-  color: var(--accent-gold);
-  border: 1px solid var(--accent-gold);
-}
-.btn--outline:hover {
-  background: var(--accent-gold);
-  color: var(--bg-dark);
-}
-
-.btn--ghost {
-  background: transparent;
-  color: var(--text-muted);
-}
-.btn--ghost:hover {
-  color: #fff;
-}
-
-/* ── Cards ───────────────────────────────────────────────────────── */
-.classy-card {
-  background: var(--bg-card);
-  border: 1px solid var(--line);
-  padding: 40px;
-  transition: all 0.5s ease;
-}
-.classy-card:hover { border-color: var(--accent-gold); }
-
-/* ── Dashboard (Classy Edition) ────────────────────────────────── */
-.dash-root { display: flex; min-height: 100vh; background: #050505; }
-
-.dash-sidebar {
-  width: 280px; padding: 60px 30px;
-  border-right: 1px solid var(--line);
-  display: flex; flex-direction: column;
-}
-
+/* ── Branding & Logo ────────────────────────────────────────────── */
 .dash-logo {
-  font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 60px;
-  letter-spacing: 1px; color: var(--accent-gold);
+  font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 60px;
+  letter-spacing: 0.4em; color: var(--accent-gold); text-transform: uppercase;
+  display: flex; flex-direction: column; align-items: start; gap: 12px;
+  text-decoration: none;
+}
+.logo-mark {
+  width: 44px; height: 44px; border: 1px solid var(--accent-gold);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; font-style: italic; position: relative;
+  color: var(--accent-gold); text-decoration: none;
+}
+.logo-mark::after {
+  content: ''; position: absolute; inset: -3px; border: 1px solid rgba(196, 150, 58, 0.15); border-radius: 50%;
 }
 
+/* ── Navigation ──────────────────────────────────────────────────── */
 .dash-nav-item {
   width: 100%; padding: 12px 0; border: none; background: none;
-  color: var(--text-muted); text-align: left; font-size: 0.8rem;
+  color: var(--text-muted); text-align: left; font-size: 0.75rem;
   text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
   border-bottom: 1px solid transparent; transition: 0.3s;
   display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
@@ -130,38 +59,50 @@ h1, h2, h3, .serif {
 .dash-nav-item:hover { color: #fff; border-bottom: 1px solid var(--accent-gold); }
 .dash-nav-item--active { color: var(--accent-gold); border-bottom: 1px solid var(--accent-gold); }
 
+/* ── Buttons ─────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 14px 36px; border-radius: 0; /* Pure square for vintage */
+  font-weight: 500; font-size: 0.75rem; text-decoration: none;
+  text-transform: uppercase; letter-spacing: 2.5px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer; border: none;
+}
+.btn--gold { background: var(--accent-gold); color: #000; }
+.btn--gold:hover { background: #fff; transform: translateY(-2px); }
+.btn--outline { background: transparent; color: var(--accent-gold); border: 1px solid var(--accent-gold); }
+
+/* ── Layout & Cards ──────────────────────────────────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.classy-card { background: var(--bg-card); border: 1px solid var(--line); padding: 40px; transition: 0.4s; }
+.classy-card:hover { border-color: var(--accent-gold); }
+
+/* ── Dashboard Root ──────────────────────────────────────────────── */
+.dash-root { display: flex; min-height: 100vh; background: #050505; }
+.dash-sidebar { width: 280px; padding: 60px 30px; border-right: 1px solid var(--line); display: flex; flex-direction: column; }
 .dash-main { flex: 1; padding: 60px 80px; }
 
-/* ── Metrics ─────────────────────────────────────────────────────── */
-.metric-row-classy { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--line); }
+/* ── Stats ───────────────────────────────────────────────────────── */
+.metric-row-classy { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); }
 .metric-item-classy { padding: 30px; border-right: 1px solid var(--line); text-align: center; }
-.metric-item-classy:last-child { border-right: none; }
-.metric-label-classy { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 12px; }
+.metric-label-classy { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-dim); margin-bottom: 12px; }
 .metric-value-classy { font-family: 'Playfair Display'; font-size: 2.4rem; color: var(--accent-gold); }
-
-/* ── Form ────────────────────────────────────────────────────────── */
-.classy-input {
-  width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--line);
-  padding: 20px 0; color: #fff; font-size: 1.1rem; outline: none; transition: 0.3s;
-  font-family: 'Playfair Display', serif;
-}
-.classy-input:focus { border-bottom-color: var(--accent-gold); }
 
 /* ── Table ───────────────────────────────────────────────────────── */
 .classy-table { width: 100%; border-collapse: collapse; }
-.classy-table th { text-align: left; padding: 16px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); border-bottom: 1px solid var(--line); }
-.classy-table td { padding: 20px 16px; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+.classy-table th { text-align: left; padding: 16px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); border-bottom: 1px solid var(--line); }
+.classy-table td { padding: 24px 16px; border-bottom: 1px solid var(--line); font-size: 0.85rem; }
 
 /* ── Badges ──────────────────────────────────────────────────────── */
-.badge-gold { padding: 4px 12px; border: 1px solid var(--accent-gold); color: var(--accent-gold); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; }
+.badge-gold { padding: 4px 12px; border: 1px solid var(--accent-gold); color: var(--accent-gold); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; }
 
 /* ── Auth ────────────────────────────────────────────────────────── */
 .auth-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 40px; }
-.auth-container { width: 100%; max-width: 400px; text-align: center; }
+.auth-container { width: 100%; max-width: 440px; text-align: center; }
 
-/* Refined Noise (Subtle) */
+/* ── Noise Overlay ───────────────────────────────────────────────── */
 .noise {
-  position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.02;
+  position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.025;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 

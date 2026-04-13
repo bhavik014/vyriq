@@ -7,7 +7,10 @@
 
   <!-- ══ SIDEBAR ══════════════════════════════════════════════════ -->
   <aside class="dash-sidebar">
-    <div class="dash-logo">Vyriq</div>
+    <a href="{{ url_for('index') }}" class="dash-logo">
+      <div class="logo-mark">V</div>
+      <span>Vyriq</span>
+    </a>
 
     <nav style="display: flex; flex-direction: column; gap: 8px;">
       {% for link in nav_links %}

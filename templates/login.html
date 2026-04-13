@@ -1,34 +1,35 @@
 {% extends "base.html" %}
-{% block title %}Sign In — Vyriq{% endblock %}
+{% block title %}Authentication — Vyriq{% endblock %}
 
 {% block body %}
-<div class="glow-bg"></div>
+<div class="noise"></div>
 <div class="auth-page">
-  <a href="{{ url_for('index') }}" class="dash-logo">
-    <span class="logo-mark">V</span> Vyriq
-  </a>
+  <div class="auth-container">
+    <a href="{{ url_for('index') }}" class="dash-logo" style="align-items: center; margin-bottom: 48px;">
+      <div class="logo-mark">V</div>
+      <span>Vyriq</span>
+    </a>
 
-  <div class="glass-card auth-card">
-    <h1 class="auth-title">Welcome back</h1>
-    <p class="auth-sub">Enter your credentials to access your intel.</p>
+    <div class="classy-card">
+      <h1 style="font-size: 2rem; margin-bottom: 8px; font-family: 'Playfair Display';">Welcome back</h1>
+      <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 40px;">Credentials Required</p>
 
-    <form method="POST" action="{{ url_for('login') }}" class="auth-form">
-      <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" id="email" name="email" placeholder="name@company.com" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="••••••••" required />
-      </div>
-      <button type="submit" class="btn btn--glow" style="width:100%; justify-content:center; margin-top: 10px;">
-        Sign in →
-      </button>
-    </form>
+      <form method="POST" action="{{ url_for('login') }}" style="text-align: left;">
+        <div style="margin-bottom: 32px;">
+          <label style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); display: block; margin-bottom: 8px;">Email Address</label>
+          <input type="email" name="email" class="classy-input" placeholder="name@domain.com" required />
+        </div>
+        <div style="margin-bottom: 48px;">
+          <label style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); display: block; margin-bottom: 8px;">Secret Password</label>
+          <input type="password" name="password" class="classy-input" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn--gold" style="width: 100%; justify-content: center;">Enter the Portal</button>
+      </form>
 
-    <p class="auth-footer">
-      New to Vyriq? <a href="{{ url_for('signup') }}">Create free account</a>
-    </p>
+      <p style="margin-top: 40px; font-size: 0.75rem; color: var(--text-dim); letter-spacing: 1px;">
+        New to the intelligence? <a href="{{ url_for('signup') }}" style="color: var(--accent-gold); text-decoration: none;">Establish account</a>
+      </p>
+    </div>
   </div>
 </div>
 {% endblock %}

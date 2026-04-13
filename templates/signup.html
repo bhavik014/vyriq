@@ -1,37 +1,39 @@
 {% extends "base.html" %}
-{% block title %}Sign Up — Vyriq{% endblock %}
+{% block title %}Establish Account — Vyriq{% endblock %}
 
 {% block body %}
-<div class="glow-bg"></div>
+<div class="noise"></div>
 <div class="auth-page">
-  <a href="{{ url_for('index') }}" class="dash-logo">
-    <span class="logo-mark">V</span> Vyriq
-  </a>
+  <div class="auth-container">
+    <a href="{{ url_for('index') }}" class="dash-logo" style="align-items: center; margin-bottom: 48px;">
+      <div class="logo-mark">V</div>
+      <span>Vyriq</span>
+    </a>
 
-  <div class="glass-card auth-card">
-    <p class="auth-sub" style="letter-spacing: 0.5px;">Scale your intelligence. Free forever on the Starter plan.</p>
+    <div class="classy-card">
+      <h1 style="font-size: 2rem; margin-bottom: 8px; font-family: 'Playfair Display';">Join Vyriq</h1>
+      <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 40px;">Private Membership</p>
 
-    <form method="POST" action="{{ url_for('signup') }}" class="auth-form" style="margin-top: 10px;">
-      <div class="form-group">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" placeholder="E.g. Alexander Pierce" required />
-      </div>
-      <div class="form-group">
-        <label for="email">Work Email</label>
-        <input type="email" id="email" name="email" placeholder="name@company.com" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Choose Password</label>
-        <input type="password" id="password" name="password" placeholder="At least 8 characters" required minlength="8" />
-      </div>
-      <button type="submit" class="btn btn--glow" style="width:100%; justify-content:center; margin-top: 20px; padding: 16px; font-size: 1rem; letter-spacing: 0.5px;">
-        Create Your Account →
-      </button>
-    </form>
+      <form method="POST" action="{{ url_for('signup') }}" style="text-align: left;">
+        <div style="margin-bottom: 32px;">
+          <label style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); display: block; margin-bottom: 8px;">Full Name</label>
+          <input type="text" name="name" class="classy-input" placeholder="Alexander Smith" required />
+        </div>
+        <div style="margin-bottom: 32px;">
+          <label style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); display: block; margin-bottom: 8px;">Email Address</label>
+          <input type="email" name="email" class="classy-input" placeholder="name@domain.com" required />
+        </div>
+        <div style="margin-bottom: 48px;">
+          <label style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); display: block; margin-bottom: 8px;">Choose Password</label>
+          <input type="password" name="password" class="classy-input" placeholder="••••••••" required minlength="8" />
+        </div>
+        <button type="submit" class="btn btn--gold" style="width: 100%; justify-content: center;">Create Artifact</button>
+      </form>
 
-    <p class="auth-footer">
-      Existing account? <a href="{{ url_for('login') }}">Sign in here</a>
-    </p>
+      <p style="margin-top: 40px; font-size: 0.75rem; color: var(--text-dim); letter-spacing: 1px;">
+        Existing member? <a href="{{ url_for('login') }}" style="color: var(--accent-gold); text-decoration: none;">Sign in here</a>
+      </p>
+    </div>
   </div>
 </div>
 {% endblock %}
