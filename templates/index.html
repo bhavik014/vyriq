@@ -1,76 +1,160 @@
 {% extends "base.html" %}
 
-{% block title %}Vyriq — Social Intelligence for Premium Creators{% endblock %}
+{% block title %}Vyriq — Your AI. Your Data. Your Growth.{% endblock %}
 
 {% block body %}
-<!-- ═══════════════════════════════════ NAVBAR ═══════════════════════════════════ -->
-<header style="padding: 24px 0; border-bottom: 1px solid var(--line);">
-  <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
-    <a href="{{ url_for('index') }}" class="logo">
-      <div class="logo-v">V</div> Vyriq
-    </a>
-    <nav style="display: flex; gap: 32px; align-items: center;">
-      <a href="#features" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Features</a>
-      <a href="#pricing" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Pricing</a>
-      {% if current_user.is_authenticated %}
-        <a href="{{ url_for('dashboard') }}" class="btn btn-gold">Dashboard</a>
-      {% else %}
-        <a href="{{ url_for('login') }}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Sign in</a>
-        <a href="{{ url_for('signup') }}" class="btn btn-gold">Start Free →</a>
-      {% endif %}
-    </nav>
+
+<!-- ═══════════════════════════════════ HEADER ═══════════════════════════════════ -->
+<header class="header container">
+  <a href="{{ url_for('index') }}" class="logo-wrap">
+    <div class="logo-v">V</div>
+    <div class="logo-text">Vyriq</div>
+  </a>
+
+  <nav>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+  </nav>
+
+  <div class="header-actions">
+    {% if current_user.is_authenticated %}
+      <a href="{{ url_for('dashboard') }}" class="btn-link">DASHBOARD</a>
+      <a href="{{ url_for('logout') }}" class="btn-link">SIGN OUT</a>
+    {% else %}
+      <a href="{{ url_for('login') }}" class="btn-link">SIGN IN</a>
+      <a href="{{ url_for('signup') }}" class="btn btn-gold">START FREE →</a>
+    {% endif %}
   </div>
 </header>
 
 <!-- ═══════════════════════════════════ HERO ═══════════════════════════════════ -->
-<section style="padding: 100px 0; text-align: center;">
-  <div class="container">
-    <h1 style="font-size: 4.5rem; line-height: 1.1; margin-bottom: 24px; max-width: 800px; margin-left: auto; margin-right: auto;">
-      Experience the <span style="color: var(--gold)">Next Generation</span> of Social Intel.
-    </h1>
-    <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 40px;">
-      Vyriq uses private AI to transform your raw social data into high-performance growth strategies. Built for those who lead.
-    </p>
-    <div style="display: flex; gap: 16px; justify-content: center;">
-      <a href="{{ url_for('signup') }}" class="btn btn-gold" style="padding: 16px 48px; font-size: 1.1rem;">Get Started Free</a>
-      <a href="#features" class="btn btn-outline" style="padding: 16px 48px; font-size: 1.1rem;">Explore Features</a>
+<section class="hero container">
+  
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      BUILT ON AI YOU OWN & CONTROL
     </div>
-    <div style="margin-top: 80px; position: relative;">
-      <div class="card" style="padding: 10px; border-radius: 20px; overflow: hidden; background: rgba(255,255,255,0.05);">
-        <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2070&auto=format&fit=crop" style="width: 100%; border-radius: 12px; opacity: 0.8;">
+
+    <h1 class="hero-title">
+      Your AI.<br />
+      Your data.<br />
+      <em>Your growth.</em>
+    </h1>
+
+    <p class="hero-sub">
+      Vyriq analyzes every post you publish — scoring hooks, surfacing patterns, 
+      and delivering a clear weekly game plan. Powered by AI you control, not a black box.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="{{ url_for('signup') }}" class="btn btn-gold" style="padding: 16px 40px; font-size: 1rem;">START FOR FREE →</a>
+      <a href="#how-it-works" class="btn btn-outline" style="padding: 16px 40px; font-size: 1rem;">SEE HOW IT WORKS</a>
+    </div>
+
+    <div class="social-proof">
+      <div class="avatars">
+        <span class="avatar-img" style="background:#334155; display:flex; align-items:center; justify-content:center; font-size:0.8rem">🧑‍💼</span>
+        <span class="avatar-img" style="background:#475569; display:flex; align-items:center; justify-content:center; font-size:0.8rem">👩‍🎨</span>
+        <span class="avatar-img" style="background:#1e293b; display:flex; align-items:center; justify-content:center; font-size:0.8rem">👨‍💻</span>
+        <span class="avatar-img" style="background:#334155; display:flex; align-items:center; justify-content:center; font-size:0.8rem">👩‍🚀</span>
+        <span class="avatar-img" style="background:#475569; display:flex; align-items:center; justify-content:center; font-size:0.8rem">🧑‍🎤</span>
       </div>
+      <p class="proof-text"><strong>2,400+ creators</strong> growing smarter every week</p>
     </div>
   </div>
-</section>
 
-<!-- ═══════════════════════════════════ FEATURES ═══════════════════════════════════ -->
-<section id="features" style="padding: 100px 0; background: var(--bg-alt);">
-  <div class="container">
-    <h2 style="font-size: 3rem; text-align: center; margin-bottom: 60px;">Engineered for Results</h2>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
-      <div class="card">
-        <h3 style="font-family: 'Inter'; font-size: 1.4rem; margin-bottom: 12px; color: var(--gold);">Hook Analyzer</h3>
-        <p style="color: var(--text-muted);">Scientifically score every opening line. Know if your post will stick before you hit send.</p>
+  <div class="mockup-container">
+    <div class="browser-window">
+      <div class="browser-bar">
+        <div class="dots">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yel"></span>
+          <span class="dot dot-grn"></span>
+        </div>
+        <div class="browser-url">vyriq.ai/dashboard</div>
+        <div class="dash-label-live" style="background:#000; color:var(--text-muted); font-size:0.6rem">✦ 847 posts AI-analyzed</div>
       </div>
-      <div class="card">
-        <h3 style="font-family: 'Inter'; font-size: 1.4rem; margin-bottom: 12px; color: var(--gold);">Timing Intelligence</h3>
-        <p style="color: var(--text-muted);">Your audience isn't generic. Our AI finds the exact minute your reach peaks.</p>
-      </div>
-      <div class="card">
-        <h3 style="font-family: 'Inter'; font-size: 1.4rem; margin-bottom: 12px; color: var(--gold);">Social Mastery</h3>
-        <p style="color: var(--text-muted);">Connect everything. Analyze patterns across Instagram, Facebook, TikTok and X.</p>
+      
+      <div class="dash-preview">
+        <div class="dash-header">
+          <span class="dash-title">Today's Insights</span>
+          <span class="dash-label-live">● LIVE</span>
+        </div>
+
+        <div class="mock-metrics">
+          <div class="mock-metric-card">
+            <div class="mock-metric-label">Avg. Engagement</div>
+            <div class="mock-metric-val" style="font-family: 'Playfair Display'">7.4%</div>
+            <div class="mock-metric-delta">↑ +2.1%</div>
+          </div>
+          <div class="mock-metric-card">
+            <div class="mock-metric-label">Best Post Time</div>
+            <div class="mock-metric-val" style="font-family: 'Playfair Display'">7–9 AM</div>
+            <div class="mock-metric-delta">↑ Tue & Thu</div>
+          </div>
+          <div class="mock-metric-card">
+            <div class="mock-metric-label">Hook Score</div>
+            <div class="mock-metric-val" style="font-family: 'Playfair Display'">91/100</div>
+            <div class="mock-metric-delta">↑ +6 pts</div>
+          </div>
+        </div>
+
+        <div class="mock-insight-box">
+          <div class="mock-insight-icon">✦</div>
+          <div>
+            <div class="mock-insight-title">VYRIQ INSIGHT</div>
+            <p class="mock-insight-text">Your Tuesday posts get <strong>3.2× more saves</strong> than any other day. Schedule your best content for 9 AM Tuesday.</p>
+          </div>
+        </div>
+
+        <div class="mock-chart">
+          <div class="chart-bar" style="height:30%"></div>
+          <div class="chart-bar" style="height:45%"></div>
+          <div class="chart-bar" style="height:25%"></div>
+          <div class="chart-bar" style="height:70%"></div>
+          <div class="chart-bar" style="height:50%"></div>
+          <div class="chart-bar" style="height:85%"></div>
+          <div class="chart-bar" style="height:40%"></div>
+        </div>
+        <div style="display:flex; justify-content:center; gap:16px; margin-top:8px; font-size:0.6rem; color:var(--text-muted); opacity:0.4">
+          <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+        </div>
       </div>
     </div>
+
+    <div class="float-bubble">
+      <span class="badge-dot"></span>
+      Engagement up 34% this week
+    </div>
+  </div>
+
+</section>
+
+<!-- ──────── PHILOSOPHY SECTION ──────── -->
+<section id="how-it-works" style="padding: 100px 0; border-top: 1px solid var(--line); text-align: center;">
+  <div class="container" style="max-width: 800px;">
+    <h2 style="font-size: 3rem; margin-bottom: 24px;">Built for the Performance Age</h2>
+    <p style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;">
+      Stop guessing why some posts go viral while others disappear. Vyriq provides deep social intelligence 
+      so you can duplicate your success, predictably.
+    </p>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════ FOOTER ═══════════════════════════════════ -->
 <footer style="padding: 60px 0; border-top: 1px solid var(--line);">
   <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-    <a href="{{ url_for('index') }}" class="logo" style="font-size: 1.4rem;">
-      <div class="logo-v" style="width: 32px; height: 32px; font-size: 1rem;">V</div> Vyriq
-    </a>
-    <p style="color: var(--text-muted); font-size: 0.9rem;">© 2026 Vyriq.ai. All rights reserved.</p>
+    <div class="logo-wrap">
+      <div class="logo-v" style="width:32px; height:32px; font-size:1rem">V</div>
+      <div class="logo-text" style="font-size:1.4rem">Vyriq</div>
+    </div>
+    <p style="font-size: 0.85rem; color: var(--text-muted);">© 2026 Vyriq.ai · Designed for elite performance</p>
   </div>
 </footer>
+
 {% endblock %}
