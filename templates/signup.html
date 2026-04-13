@@ -1,37 +1,40 @@
 {% extends "base.html" %}
-{% block title %}Establish Account — Vyriq{% endblock %}
+{% block title %}Establish Account — Vyriq Intelligence{% endblock %}
 
 {% block body %}
-<div class="noise"></div>
-<div class="auth-page">
-  <div class="auth-container">
-    <a href="{{ url_for('index') }}" class="dash-logo" style="align-items: center; margin-bottom: 48px;">
-      <div class="logo-mark">V</div>
-      <span>Vyriq</span>
-    </a>
+<div style="min-height: 100vh; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 40px;">
+  <div style="width: 100%; max-width: 440px;">
+    
+    <div style="text-align: center; margin-bottom: 48px;">
+      <a href="{{ url_for('index') }}" class="logo-wrap" style="justify-content: center; margin-bottom: 32px;">
+        <div class="logo-v" style="width: 44px; height: 44px; font-size: 1.6rem;">V</div>
+        <div class="logo-text" style="font-size: 2rem;">Vyriq</div>
+      </a>
+      <h1 style="font-size: 2.2rem; margin-bottom: 12px;">Create Account</h1>
+      <p style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; font-weight: 700;">Join the performance inner circle</p>
+    </div>
 
-    <div class="classy-card">
-      <h1 style="font-size: 2rem; margin-bottom: 8px; font-family: 'Playfair Display';">Join Vyriq</h1>
-      <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 40px;">Private Membership</p>
-
-      <form method="POST" action="{{ url_for('signup') }}" style="text-align: left;">
-        <div style="margin-bottom: 32px;">
-          <label style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); display: block; margin-bottom: 8px;">Full Name</label>
-          <input type="text" name="name" class="classy-input" placeholder="Alexander Smith" required />
+    <div class="mock-metric-card" style="padding: 40px;">
+      <form method="POST" action="{{ url_for('signup') }}">
+        <div style="margin-bottom: 24px;">
+          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px;">Full Legal Name</label>
+          <input type="text" name="name" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 16px; color: #fff; border-radius: 4px; outline: none;" placeholder="Alexander Pierce" required />
+        </div>
+        <div style="margin-bottom: 24px;">
+          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px;">Email Address</label>
+          <input type="email" name="email" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 16px; color: #fff; border-radius: 4px; outline: none;" placeholder="name@company.com" required />
         </div>
         <div style="margin-bottom: 32px;">
-          <label style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); display: block; margin-bottom: 8px;">Email Address</label>
-          <input type="email" name="email" class="classy-input" placeholder="name@domain.com" required />
+          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px;">Choose Password</label>
+          <input type="password" name="password" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 16px; color: #fff; border-radius: 4px; outline: none;" placeholder="••••••••" required minlength="8" />
         </div>
-        <div style="margin-bottom: 48px;">
-          <label style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); display: block; margin-bottom: 8px;">Choose Password</label>
-          <input type="password" name="password" class="classy-input" placeholder="••••••••" required minlength="8" />
-        </div>
-        <button type="submit" class="btn btn--gold" style="width: 100%; justify-content: center;">Create Artifact</button>
+        <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center; padding: 18px; border-radius: 4px;">ESTABLISH ACCOUNT →</button>
       </form>
+    </div>
 
-      <p style="margin-top: 40px; font-size: 0.75rem; color: var(--text-dim); letter-spacing: 1px;">
-        Existing member? <a href="{{ url_for('login') }}" style="color: var(--accent-gold); text-decoration: none;">Sign in here</a>
+    <div style="margin-top: 32px; text-align: center;">
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        Existing member? <a href="{{ url_for('login') }}" style="color: #fff; text-decoration: none; font-weight: 600;">Sign In Here</a>
       </p>
     </div>
   </div>

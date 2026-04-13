@@ -146,14 +146,78 @@
   </div>
 </section>
 
+<!-- ═══════════════════════════════════ PRICING ═══════════════════════════════════ -->
+<section id="pricing" style="padding: 120px 0; background: #000;">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 80px;">
+      <h2 style="font-size: 3.5rem; margin-bottom: 24px;">Simple, Elite <em>Pricing.</em></h2>
+      <p style="color: var(--text-muted); font-size: 1.1rem;">Choose the level of intelligence that fits your growth stage.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;">
+      <!-- Starter -->
+      <div class="mock-metric-card" style="padding: 48px; position: relative;">
+        <div style="font-size: 0.7rem; color: var(--gold); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">The Entry</div>
+        <h3 style="font-size: 2rem; margin-bottom: 12px;">Starter</h3>
+        <div style="font-size: 3rem; font-family: 'Playfair Display'; margin-bottom: 32px;">$0<span style="font-size: 1rem; color: var(--text-dim);">/mo</span></div>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; color: var(--text-muted); font-size: 0.95rem;">
+          <li>✓ 30 AI Analyses / mo</li>
+          <li>✓ Basic Hook Scoring</li>
+          <li>✓ Performance History</li>
+          <li>✓ Community Access</li>
+        </ul>
+        <a href="{{ url_for('signup') }}" class="btn btn-outline" style="width: 100%; border-radius: 4px;">GET STARTED</a>
+      </div>
+
+      <!-- Creator (Popular) -->
+      <div class="mock-metric-card" style="padding: 48px; border: 1px solid var(--gold); background: #1a1a19;">
+        <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; padding: 4px 16px; border-radius: 50px; font-size: 0.65rem; font-weight: 800;">MOST POPULAR</div>
+        <div style="font-size: 0.7rem; color: var(--gold); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">The Professional</div>
+        <h3 style="font-size: 2rem; margin-bottom: 12px;">Creator</h3>
+        <div style="font-size: 3rem; font-family: 'Playfair Display'; margin-bottom: 32px;">$29<span style="font-size: 1rem; color: var(--text-dim);">/mo</span></div>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; color: #fff; font-size: 0.95rem; font-weight: 500;">
+          <li>✓ Unlimited AI Analyses</li>
+          <li>✓ Advanced Hook Refinement</li>
+          <li>✓ Social Profile Linking</li>
+          <li>✓ Temporal Efficiency Maps</li>
+          <li>✓ Priority AI Processing</li>
+        </ul>
+        <a href="{{ url_for('signup') }}" class="btn btn-gold" style="width: 100%; border-radius: 4px;">GO PRO NOW</a>
+      </div>
+
+      <!-- Agency -->
+      <div class="mock-metric-card" style="padding: 48px;">
+        <div style="font-size: 0.7rem; color: var(--gold); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">The Organization</div>
+        <h3 style="font-size: 2rem; margin-bottom: 12px;">Agency</h3>
+        <div style="font-size: 3rem; font-family: 'Playfair Display'; margin-bottom: 32px;">$79<span style="font-size: 1rem; color: var(--text-dim);">/mo</span></div>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; color: var(--text-muted); font-size: 0.95rem;">
+          <li>✓ Everything in Creator</li>
+          <li>✓ 10 Client Channels</li>
+          <li>✓ Team Collaboration</li>
+          <li>✓ API Access (Beta)</li>
+          <li>✓ Data White-labeling</li>
+        </ul>
+        <a href="{{ url_for('signup') }}" class="btn btn-outline" style="width: 100%; border-radius: 4px;">CONTACT SALES</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════════════════════════ FOOTER ═══════════════════════════════════ -->
-<footer style="padding: 60px 0; border-top: 1px solid var(--line);">
+<footer style="padding: 100px 0 60px; border-top: 1px solid var(--line);">
   <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
     <div class="logo-wrap">
       <div class="logo-v" style="width:32px; height:32px; font-size:1rem">V</div>
       <div class="logo-text" style="font-size:1.4rem">Vyriq</div>
     </div>
-    <p style="font-size: 0.85rem; color: var(--text-muted);">© 2026 Vyriq.ai · Designed for elite performance</p>
+    <div style="display: flex; gap: 40px;">
+      <a href="#" style="color: var(--text-dim); text-decoration: none; font-size: 0.8rem;">Privacy Policy</a>
+      <a href="#" style="color: var(--text-dim); text-decoration: none; font-size: 0.8rem;">Terms of Service</a>
+      <a href="#" style="color: var(--text-dim); text-decoration: none; font-size: 0.8rem;">Twitter</a>
+    </div>
+  </div>
+  <div class="container" style="margin-top: 40px; text-align: center;">
+    <p style="font-size: 0.8rem; color: var(--text-dim);">© 2026 Vyriq Intelligence · Building the future of performance</p>
   </div>
 </footer>
 
