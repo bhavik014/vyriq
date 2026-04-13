@@ -51,13 +51,25 @@ h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; }
   -webkit-text-fill-color: transparent;
 }
 
-/* ── Background Glows ────────────────────────────────────────────── */
+/* ── Background Glows & Noise ────────────────────────────────────── */
+.noise-overlay {
+  position: fixed; inset: 0; z-index: 999; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.045;
+}
+
 .glow-bg {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: 
-    radial-gradient(circle at 80% 20%, rgba(142, 45, 226, 0.15), transparent 40%),
-    radial-gradient(circle at 20% 80%, rgba(0, 242, 255, 0.1), transparent 40%);
+    radial-gradient(circle at 80% 20%, rgba(142, 45, 226, 0.18), transparent 45%),
+    radial-gradient(circle at 20% 80%, rgba(0, 242, 255, 0.12), transparent 45%);
   z-index: -1; pointer-events: none;
+  animation: float-glow 20s ease-in-out infinite alternate;
+}
+
+@keyframes float-glow {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1) rotate(5deg); }
 }
 
 /* ── Buttons ─────────────────────────────────────────────────────── */
@@ -96,13 +108,28 @@ h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; }
 /* ── Cards & Layout ──────────────────────────────────────────────── */
 .glass-card, .dash-metric-card, .insight-card, .post-table, .analyzer-box, .post-full-card {
   background: var(--bg-card);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid var(--border-glass);
   border-radius: var(--r-lg);
   padding: 30px;
-  transition: border-color 0.3s;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
-.glass-card:hover { border-color: rgba(0, 242, 255, 0.3); }
+
+.glass-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.glass-card:hover { 
+  border-color: rgba(0, 242, 255, 0.4); 
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0, 242, 255, 0.05);
+}
 
 /* ── Dashboard Specific ──────────────────────────────────────────── */
 .dash-root { display: flex; min-height: 100vh; }
@@ -214,8 +241,18 @@ h1, h2, h3 { font-family: 'Instrument Serif', serif; font-weight: 400; }
 .flash--error { background: #ff4d4d; color: #fff; }
 .flash--success { background: var(--accent-cyan); color: #000; }
 
-.hidden { display: none !important; }
+/* ── Auth & Forms ────────────────────────────────────────────────── */
+.auth-page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; position: relative; }
+.auth-card { width: 100%; max-width: 440px; margin-top: 32px; }
+.auth-title { font-size: 2.2rem; margin-bottom: 8px; text-align: center; }
+.auth-sub { font-size: 0.95rem; color: var(--text-muted); text-align: center; margin-bottom: 32px; }
 
-/* Dashboard Tabs */
-.dash-tab { animation: fadeIn 0.4s ease-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.form-group label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); letter-spacing: 0.5px; }
+.form-group input { 
+  background: var(--bg-glass); border: 1px solid var(--border-glass); 
+  border-radius: var(--r-md); padding: 14px 16px; color: #fff; font-size: 1rem; outline: none; transition: 0.3s;
+}
+.form-group input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 15px var(--accent-glow); }
+.auth-footer { margin-top: 24px; text-align: center; font-size: 0.9rem; color: var(--text-muted); }
+.auth-footer a { color: var(--accent-cyan); text-decoration: none; font-weight: 600; }

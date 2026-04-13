@@ -1,36 +1,36 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %}Sign Up — Vyriq{% endblock %}
 
 {% block body %}
+<div class="glow-bg"></div>
 <div class="auth-page">
-  <a href="{{ url_for('index') }}" class="auth-logo">
+  <a href="{{ url_for('index') }}" class="dash-logo">
     <span class="logo-mark">V</span> Vyriq
   </a>
 
-  <div class="auth-card">
-    <h1 class="auth-title">Create your account</h1>
-    <p class="auth-sub">Free forever on the Starter plan</p>
+  <div class="glass-card auth-card">
+    <p class="auth-sub" style="letter-spacing: 0.5px;">Scale your intelligence. Free forever on the Starter plan.</p>
 
-    <form method="POST" action="{{ url_for('signup') }}" class="auth-form">
+    <form method="POST" action="{{ url_for('signup') }}" class="auth-form" style="margin-top: 10px;">
       <div class="form-group">
-        <label for="name">Your name</label>
-        <input type="text" id="name" name="name" placeholder="Jane Smith" required />
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="E.g. Alexander Pierce" required />
       </div>
       <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+        <label for="email">Work Email</label>
+        <input type="email" id="email" name="email" placeholder="name@company.com" required />
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Choose a strong password" required minlength="8" />
+        <label for="password">Choose Password</label>
+        <input type="password" id="password" name="password" placeholder="At least 8 characters" required minlength="8" />
       </div>
-      <button type="submit" class="btn btn--primary" style="width:100%;justify-content:center">
-        Create account →
+      <button type="submit" class="btn btn--glow" style="width:100%; justify-content:center; margin-top: 20px; padding: 16px; font-size: 1rem; letter-spacing: 0.5px;">
+        Create Your Account →
       </button>
     </form>
 
     <p class="auth-footer">
-      Already have an account? <a href="{{ url_for('login') }}">Sign in →</a>
+      Existing account? <a href="{{ url_for('login') }}">Sign in here</a>
     </p>
   </div>
 </div>

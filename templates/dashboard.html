@@ -48,18 +48,18 @@
             <strong>{{ current_user.analysis_count }}</strong>
             <span style="color:var(--ink-muted)"> / {{ current_user.monthly_limit }} analyses</span>
           </div>
-          <div style="width:160px;height:4px;background:var(--line);border-radius:2px;margin-top:6px;overflow:hidden">
-            <div style="width:{{ [(current_user.analysis_count / current_user.monthly_limit * 100)|int, 100]|min }}%;height:100%;background:var(--gold);border-radius:2px;transition:width .3s"></div>
+          <div style="width:160px;height:4px;background:var(--border-glass);border-radius:2px;margin-top:6px;overflow:hidden">
+            <div style="width:{{ [(current_user.analysis_count / current_user.monthly_limit * 100)|int, 100]|min }}%;height:100%;background:var(--accent-cyan);border-radius:2px;transition:width .3s"></div>
           </div>
         </div>
-        <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn--gold" style="padding:10px 18px;font-size:.72rem">
+        <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn--glow" style="padding:10px 18px;font-size:.72rem">
           Upgrade →
         </a>
       </div>
       {% else %}
       <div style="display:flex;align-items:center;gap:10px">
-        <span class="pill pill--gold">✦ {{ plan_names[current_user.plan] }}</span>
-        <a href="{{ url_for('billing') }}" class="btn btn--outline-dark" style="padding:9px 16px;font-size:.72rem">Manage Billing</a>
+        <span class="hook-badge hook-great">✦ {{ plan_names[current_user.plan] }}</span>
+        <a href="{{ url_for('billing') }}" class="btn btn--glass" style="padding:9px 16px;font-size:.72rem">Manage Billing</a>
       </div>
       {% endif %}
     </div>
@@ -487,7 +487,7 @@ async function runAnalysis() {
     // Animate the conic gradient on the score circle
     const pct = (score / 100) * 360;
     document.getElementById('scoreCircle').style.background =
-      `conic-gradient(var(--gold) ${pct}deg, var(--canvas-alt) ${pct}deg)`;
+      `conic-gradient(var(--accent-cyan) ${pct}deg, var(--bg-glass) ${pct}deg)`;
 
     document.getElementById('resultSummary').textContent = data.summary || '';
 
