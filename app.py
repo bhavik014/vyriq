@@ -63,8 +63,14 @@ APP_URL                 = os.getenv('APP_URL', 'http://localhost:5000')
 # ════════════════════════════════════════════════════════════════════
 #  OpenAI Setup
 # ════════════════════════════════════════════════════════════════════
-openai_client = OpenAI(api_key=os.getenv('OPENAI_API_KEY', ''))
-AI_MODEL      = 'gpt-4o-mini'
+_ai_key = os.getenv('OPENAI_API_KEY')
+if not _ai_key:
+    print("WARNING: OPENAI_API_KEY not found in environment.")
+    openai_client = None
+else:
+    openai_client = OpenAI(api_key=_ai_key)
+
+AI_MODEL = 'gpt-4o-mini'
 
 # ════════════════════════════════════════════════════════════════════
 #  Plan Limits
