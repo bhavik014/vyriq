@@ -1,133 +1,76 @@
 {% extends "base.html" %}
 
-{% block title %}Vyriq — Private Social Intelligence for Serious Creators{% endblock %}
+{% block title %}Vyriq — Social Intelligence for Premium Creators{% endblock %}
 
 {% block body %}
-<!-- Substance & Texture -->
-<div class="noise"></div>
-
 <!-- ═══════════════════════════════════ NAVBAR ═══════════════════════════════════ -->
-<header style="padding: 60px 0;">
+<header style="padding: 24px 0; border-bottom: 1px solid var(--line);">
   <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
-    <a href="{{ url_for('index') }}" class="dash-logo" style="margin-bottom: 0;">
-      <div class="logo-mark">V</div>
-      <span>Vyriq</span>
+    <a href="{{ url_for('index') }}" class="logo">
+      <div class="logo-v">V</div> Vyriq
     </a>
-    
-    <nav style="display: flex; gap: 48px; align-items: center;">
-      <a href="#philosophy" style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--text-muted); text-decoration: none;">Philosophy</a>
-      <a href="#intelligence" style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--text-muted); text-decoration: none;">Intelligence</a>
+    <nav style="display: flex; gap: 32px; align-items: center;">
+      <a href="#features" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Features</a>
+      <a href="#pricing" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Pricing</a>
       {% if current_user.is_authenticated %}
-        <a href="{{ url_for('dashboard') }}" class="btn btn--outline" style="padding: 12px 28px;">The Portal</a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-gold">Dashboard</a>
       {% else %}
-        <a href="{{ url_for('login') }}" style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--text-muted); text-decoration: none;">Login</a>
-        <a href="{{ url_for('signup') }}" class="btn btn--gold">Establish Account</a>
+        <a href="{{ url_for('login') }}" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Sign in</a>
+        <a href="{{ url_for('signup') }}" class="btn btn-gold">Start Free →</a>
       {% endif %}
     </nav>
   </div>
 </header>
 
 <!-- ═══════════════════════════════════ HERO ═══════════════════════════════════ -->
-<section style="padding: 120px 0 160px;">
-  <div class="container" style="max-width: 900px; text-align: center;">
-    <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 4px; color: var(--accent-gold); margin-bottom: 32px;">The Standard of Content Intelligence</p>
-    
-    <h1 style="font-size: clamp(3.5rem, 8vw, 5.5rem); margin-bottom: 40px; line-height: 1.1;">
-      Quietly Outgrow <br /><em>the Competition.</em>
+<section style="padding: 100px 0; text-align: center;">
+  <div class="container">
+    <h1 style="font-size: 4.5rem; line-height: 1.1; margin-bottom: 24px; max-width: 800px; margin-left: auto; margin-right: auto;">
+      Experience the <span style="color: var(--gold)">Next Generation</span> of Social Intel.
     </h1>
-
-    <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 56px; line-height: 1.8; font-family: 'Lora', serif; font-style: italic;">
-      Vyriq provides private, AI-driven intelligence for creators who value precision over noise. Your data, refined into pure growth.
+    <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 40px;">
+      Vyriq uses private AI to transform your raw social data into high-performance growth strategies. Built for those who lead.
     </p>
-
-    <div style="display: flex; gap: 24px; justify-content: center;">
-      <a href="{{ url_for('signup') }}" class="btn btn--gold" style="padding: 20px 48px;">Get Started</a>
-      <a href="#intelligence" class="btn btn--outline" style="padding: 20px 48px;">The Intelligence</a>
+    <div style="display: flex; gap: 16px; justify-content: center;">
+      <a href="{{ url_for('signup') }}" class="btn btn-gold" style="padding: 16px 48px; font-size: 1.1rem;">Get Started Free</a>
+      <a href="#features" class="btn btn-outline" style="padding: 16px 48px; font-size: 1.1rem;">Explore Features</a>
     </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════ PHILOSOPHY ═══════════════════════════════════ -->
-<section id="philosophy" style="padding: 120px 0; border-top: 1px solid var(--line);">
-  <div class="container">
-    <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: center;">
-      <div>
-        <h2 style="font-size: 3rem; margin-bottom: 32px;">Private.<br />Personal.<br /><em>Precision.</em></h2>
-        <p style="color: var(--text-muted); margin-bottom: 24px;">Traditional analytics tell you what happened. Vyriq tells you why it matters.</p>
-        <p style="color: var(--text-muted);">We don't sell your data, we don't use shared models. Your intelligence is yours alone.</p>
-      </div>
-      <div style="border: 1px solid var(--line); padding: 5px;">
-        <img src="https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?q=80&w=2070&auto=format&fit=crop" alt="Abstract Classy" style="width: 100%; height: 500px; object-fit: cover; filter: sepia(0.3) brightness(0.8);">
+    <div style="margin-top: 80px; position: relative;">
+      <div class="card" style="padding: 10px; border-radius: 20px; overflow: hidden; background: rgba(255,255,255,0.05);">
+        <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2070&auto=format&fit=crop" style="width: 100%; border-radius: 12px; opacity: 0.8;">
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════════ INTELLIGENCE ═══════════════════════════════════ -->
-<section id="intelligence" style="padding: 120px 0; background: #050505;">
+<!-- ═══════════════════════════════════ FEATURES ═══════════════════════════════════ -->
+<section id="features" style="padding: 100px 0; background: var(--bg-alt);">
   <div class="container">
-    <div style="text-align: center; margin-bottom: 80px;">
-      <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-gold); margin-bottom: 16px;">Refined Tools</p>
-      <h2 style="font-size: 3.5rem;">Intelligent <em>Instruments.</em></h2>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;">
-      <div class="classy-card">
-        <div style="font-size: 0.65rem; color: var(--accent-gold); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Feature 01</div>
-        <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Hook Refinement</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.8;">Our AI evaluates your opening lines with mathematical precision, ensuring they capture attention without sacrificing class.</p>
+    <h2 style="font-size: 3rem; text-align: center; margin-bottom: 60px;">Engineered for Results</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+      <div class="card">
+        <h3 style="font-family: 'Inter'; font-size: 1.4rem; margin-bottom: 12px; color: var(--gold);">Hook Analyzer</h3>
+        <p style="color: var(--text-muted);">Scientifically score every opening line. Know if your post will stick before you hit send.</p>
       </div>
-      <div class="classy-card">
-        <div style="font-size: 0.65rem; color: var(--accent-gold); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Feature 02</div>
-        <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Temporal Engine</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.8;">Precision timing for your global audience. Reveal exactly when your followers are most receptive to your message.</p>
+      <div class="card">
+        <h3 style="font-family: 'Inter'; font-size: 1.4rem; margin-bottom: 12px; color: var(--gold);">Timing Intelligence</h3>
+        <p style="color: var(--text-muted);">Your audience isn't generic. Our AI finds the exact minute your reach peaks.</p>
       </div>
-      <div class="classy-card">
-        <div style="font-size: 0.65rem; color: var(--accent-gold); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Feature 03</div>
-        <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Social Links</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.8;">Connect your official accounts seamlessly. We analyze the underlying patterns so you can focus on the art of creation.</p>
+      <div class="card">
+        <h3 style="font-family: 'Inter'; font-size: 1.4rem; margin-bottom: 12px; color: var(--gold);">Social Mastery</h3>
+        <p style="color: var(--text-muted);">Connect everything. Analyze patterns across Instagram, Facebook, TikTok and X.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════ PRICING ═══════════════════════════════════ -->
-<section style="padding: 120px 0; border-top: 1px solid var(--line);">
-  <div class="container">
-    <div style="max-width: 800px; margin: 0 auto; text-align: center; padding: 100px 40px; border: 1px solid var(--accent-gold);">
-      <h2 style="font-size: 3rem; margin-bottom: 24px;">Join the <em>Inner Circle.</em></h2>
-      <p style="color: var(--text-muted); margin-bottom: 48px;">Choose the tier that matches your ambition. Unlimited intelligence awaits.</p>
-      
-      <div style="display: flex; gap: 40px; justify-content: center; margin-bottom: 56px;">
-        <div>
-          <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 8px;">Creator</div>
-          <div style="font-size: 2rem; font-family: 'Playfair Display';">$29/mo</div>
-        </div>
-        <div style="width: 1px; background: var(--line);"></div>
-        <div>
-          <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 8px;">Agency</div>
-          <div style="font-size: 2rem; font-family: 'Playfair Display';">$79/mo</div>
-        </div>
-      </div>
-
-      <a href="{{ url_for('signup') }}" class="btn btn--gold" style="padding: 20px 64px;">Begin Your Journey</a>
     </div>
   </div>
 </section>
 
 <!-- ═══════════════════════════════════ FOOTER ═══════════════════════════════════ -->
-<footer style="padding: 80px 0 40px; border-top: 1px solid var(--line);">
-  <div class="container" style="display: flex; justify-content: space-between; align-items: flex-end;">
-    <div>
-      <div class="dash-logo" style="margin-bottom: 24px;">Vyriq</div>
-      <p style="font-size: 0.8rem; color: var(--text-dim); letter-spacing: 1px;">© 2026 VYRIQ INTELLIGENCE. ALL RIGHTS RESERVED.</p>
-    </div>
-    <div style="display: flex; gap: 40px;">
-      <a href="#" style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); text-decoration: none;">Instagram</a>
-      <a href="#" style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); text-decoration: none;">Twitter</a>
-      <a href="#" style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); text-decoration: none;">Privacy</a>
-    </div>
+<footer style="padding: 60px 0; border-top: 1px solid var(--line);">
+  <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="{{ url_for('index') }}" class="logo" style="font-size: 1.4rem;">
+      <div class="logo-v" style="width: 32px; height: 32px; font-size: 1rem;">V</div> Vyriq
+    </a>
+    <p style="color: var(--text-muted); font-size: 0.9rem;">© 2026 Vyriq.ai. All rights reserved.</p>
   </div>
 </footer>
-
 {% endblock %}

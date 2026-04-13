@@ -1,109 +1,87 @@
 /* =====================================================================
-   Vyriq.ai v4 — "Vintage Luxury" Design System
-   Palette: Obsidian, Champagne Gold, Pearl Cream
+   Vyriq.ai — Original Modern Premium (Obsidian & Gold)
    ===================================================================== */
 
 :root {
-  --bg-dark: #0a0a0a;
-  --bg-light: #fdfcf0;
-  --bg-card: #141414;
-  --accent-gold: #c4963a;
-  --accent-gold-soft: #d4af37;
-  --accent-muted: rgba(196, 150, 58, 0.2);
-  --text-main: #fdfcf0;
-  --text-muted: rgba(253, 252, 240, 0.6);
-  --text-dim: rgba(253, 252, 240, 0.3);
-  --border-classy: rgba(196, 150, 58, 0.2);
-  --line: rgba(253, 252, 240, 0.08);
-  --r-lg: 1px; /* Very sharp borders for vintage look */
-  --r-md: 1px;
+  --bg: #050505;
+  --bg-alt: #0a0a0a;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --gold: #c4963a;
+  --gold-glow: rgba(196, 150, 58, 0.3);
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --line: rgba(255, 255, 255, 0.1);
+  --radius: 12px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  background: var(--bg-dark);
-  color: var(--text-main);
+  background: var(--bg);
+  color: var(--text);
   font-family: 'Inter', sans-serif;
-  line-height: 1.7;
-  overflow-x: hidden;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, .serif { font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.01em; }
+h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 500; }
 
-/* ── Branding & Logo ────────────────────────────────────────────── */
-.dash-logo {
-  font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 60px;
-  letter-spacing: 0.4em; color: var(--accent-gold); text-transform: uppercase;
-  display: flex; flex-direction: column; align-items: start; gap: 12px;
-  text-decoration: none;
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Branding ────────────────────────────────────────────────────── */
+.logo {
+  font-family: 'Playfair Display', serif; font-size: 1.8rem;
+  color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 10px;
 }
-.logo-mark {
-  width: 44px; height: 44px; border: 1px solid var(--accent-gold);
+.logo-v {
+  width: 40px; height: 40px; border: 2px solid var(--gold);
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; font-style: italic; position: relative;
-  color: var(--accent-gold); text-decoration: none;
+  font-weight: 700; font-size: 1.4rem;
 }
-.logo-mark::after {
-  content: ''; position: absolute; inset: -3px; border: 1px solid rgba(196, 150, 58, 0.15); border-radius: 50%;
-}
-
-/* ── Navigation ──────────────────────────────────────────────────── */
-.dash-nav-item {
-  width: 100%; padding: 12px 0; border: none; background: none;
-  color: var(--text-muted); text-align: left; font-size: 0.75rem;
-  text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
-  border-bottom: 1px solid transparent; transition: 0.3s;
-  display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
-}
-.dash-nav-item:hover { color: #fff; border-bottom: 1px solid var(--accent-gold); }
-.dash-nav-item--active { color: var(--accent-gold); border-bottom: 1px solid var(--accent-gold); }
 
 /* ── Buttons ─────────────────────────────────────────────────────── */
 .btn {
-  display: inline-flex; align-items: center; gap: 12px;
-  padding: 14px 36px; border-radius: 0; /* Pure square for vintage */
-  font-weight: 500; font-size: 0.75rem; text-decoration: none;
-  text-transform: uppercase; letter-spacing: 2.5px;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  cursor: pointer; border: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; border-radius: 50px; font-weight: 600;
+  text-decoration: none; transition: 0.3s; cursor: pointer; border: none;
 }
-.btn--gold { background: var(--accent-gold); color: #000; }
-.btn--gold:hover { background: #fff; transform: translateY(-2px); }
-.btn--outline { background: transparent; color: var(--accent-gold); border: 1px solid var(--accent-gold); }
+.btn-gold { background: var(--gold); color: #000; }
+.btn-gold:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 10px 20px var(--gold-glow); }
+.btn-outline { background: transparent; color: #fff; border: 1px solid var(--line); }
+.btn-outline:hover { background: var(--line); border-color: #fff; }
 
-/* ── Layout & Cards ──────────────────────────────────────────────── */
-.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
-.classy-card { background: var(--bg-card); border: 1px solid var(--line); padding: 40px; transition: 0.4s; }
-.classy-card:hover { border-color: var(--accent-gold); }
+/* ── Dashboard Sidebar ───────────────────────────────────────────── */
+.dash-root { display: flex; min-height: 100vh; }
+.dash-sidebar {
+  width: 260px; background: var(--bg-alt); padding: 40px 20px;
+  border-right: 1px solid var(--line); display: flex; flex-direction: column;
+}
+.nav-item {
+  width: 100%; padding: 12px 16px; border-radius: 8px;
+  color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+  margin-bottom: 4px; display: flex; align-items: center; gap: 12px;
+  transition: 0.2s; background: none; border: none; text-align: left; cursor: pointer;
+}
+.nav-item:hover { background: var(--card-bg); color: #fff; }
+.nav-item-active { background: var(--card-bg); color: var(--gold); font-weight: 600; }
 
-/* ── Dashboard Root ──────────────────────────────────────────────── */
-.dash-root { display: flex; min-height: 100vh; background: #050505; }
-.dash-sidebar { width: 280px; padding: 60px 30px; border-right: 1px solid var(--line); display: flex; flex-direction: column; }
-.dash-main { flex: 1; padding: 60px 80px; }
+.dash-main { flex: 1; padding: 40px 60px; overflow-y: auto; height: 100vh; }
 
-/* ── Stats ───────────────────────────────────────────────────────── */
-.metric-row-classy { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); }
-.metric-item-classy { padding: 30px; border-right: 1px solid var(--line); text-align: center; }
-.metric-label-classy { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-dim); margin-bottom: 12px; }
-.metric-value-classy { font-family: 'Playfair Display'; font-size: 2.4rem; color: var(--accent-gold); }
+/* ── Metrics ─────────────────────────────────────────────────────── */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px; }
+.stat-card { background: var(--card-bg); padding: 24px; border-radius: var(--radius); border: 1px solid var(--line); text-align: center; }
+.stat-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 1px; }
+.stat-value { font-size: 2rem; font-family: 'Playfair Display'; color: var(--gold); }
 
-/* ── Table ───────────────────────────────────────────────────────── */
-.classy-table { width: 100%; border-collapse: collapse; }
-.classy-table th { text-align: left; padding: 16px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); border-bottom: 1px solid var(--line); }
-.classy-table td { padding: 24px 16px; border-bottom: 1px solid var(--line); font-size: 0.85rem; }
+/* ── Components ──────────────────────────────────────────────────── */
+.card { background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--line); padding: 32px; }
+.textarea-classy {
+  width: 100%; background: rgba(255,255,255,0.02); border: 1px solid var(--line);
+  border-radius: 8px; padding: 16px; color: #fff; font-size: 1rem; margin-bottom: 20px; outline: none;
+}
+.textarea-classy:focus { border-color: var(--gold); }
 
 /* ── Badges ──────────────────────────────────────────────────────── */
-.badge-gold { padding: 4px 12px; border: 1px solid var(--accent-gold); color: var(--accent-gold); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; }
-
-/* ── Auth ────────────────────────────────────────────────────────── */
-.auth-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 40px; }
-.auth-container { width: 100%; max-width: 440px; text-align: center; }
-
-/* ── Noise Overlay ───────────────────────────────────────────────── */
-.noise {
-  position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
+.badge { padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+.badge-gold { background: var(--gold); color: #000; }
 
 .hidden { display: none !important; }

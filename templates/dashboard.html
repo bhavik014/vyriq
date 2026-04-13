@@ -1,174 +1,138 @@
 {% extends "base.html" %}
-{% block title %}The Portal — Vyriq{% endblock %}
+{% block title %}Dashboard — Vyriq{% endblock %}
 
 {% block body %}
 <div class="dash-root">
-  <div class="noise"></div>
-
-  <!-- ══ SIDEBAR ══════════════════════════════════════════════════ -->
   <aside class="dash-sidebar">
-    <a href="{{ url_for('index') }}" class="dash-logo">
-      <div class="logo-mark">V</div>
-      <span>Vyriq</span>
+    <a href="{{ url_for('index') }}" class="logo" style="margin-bottom: 40px; font-size: 1.5rem;">
+      <div class="logo-v" style="width: 32px; height: 32px; font-size: 1rem;">V</div> Vyriq
     </a>
 
-    <nav style="display: flex; flex-direction: column; gap: 8px;">
+    <nav style="display: flex; flex-direction: column; gap: 4px;">
       {% for link in nav_links %}
-      <button class="dash-nav-item {% if loop.first %}dash-nav-item--active{% endif %}" data-tab="{{ link.id }}">
+      <button class="nav-item {% if loop.first %}nav-item-active{% endif %}" data-tab="{{ link.id }}">
         {{ link.label }}
       </button>
       {% endfor %}
     </nav>
 
-    <div style="margin-top: auto; padding-top: 40px; border-top: 1px solid var(--line);">
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-        <div style="width: 40px; height: 40px; background: var(--accent-gold); color: #000; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display'; font-weight: 700; font-size: 1.2rem;">
+    <div style="margin-top: auto; padding-top: 24px; border-top: 1px solid var(--line);">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+        <div style="width: 36px; height: 36px; background: var(--gold); border-radius: 50%; color: #000; display: flex; align-items: center; justify-content: center; font-weight: 700;">
           {{ current_user.initials }}
         </div>
         <div>
-          <div style="font-size: 0.8rem; letter-spacing: 1px;">{{ current_user.name.split()[0] }}</div>
-          <div style="font-size: 0.6rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px;">{{ plan_names[current_user.plan] }} Member</div>
+          <div style="font-size: 0.85rem; font-weight: 600;">{{ current_user.name.split()[0] }}</div>
+          <div style="font-size: 0.7rem; color: var(--gold);">{{ plan_names[current_user.plan] }}</div>
         </div>
       </div>
-      <a href="{{ url_for('index') }}" style="display: block; font-size: 0.7rem; color: var(--text-dim); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;">Back to site</a>
-      <a href="{{ url_for('logout') }}" style="display: block; font-size: 0.7rem; color: var(--text-dim); text-decoration: none; text-transform: uppercase; letter-spacing: 2px;">Logout</a>
+      <a href="{{ url_for('logout') }}" class="nav-item" style="color: var(--text-muted);">Sign out</a>
     </div>
   </aside>
 
-  <!-- ══ MAIN ═════════════════════════════════════════════════════ -->
   <main class="dash-main">
-    
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px;">
       <div>
-        <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-gold); margin-bottom: 12px;">Intelligence / Portal</p>
-        <h1 style="font-size: 3rem;" id="pageTitle">Overview</h1>
+        <h1 style="font-size: 2.5rem;" id="pageTitle">Overview</h1>
+        <p style="color: var(--text-muted);" id="pageSub">Your intelligence summary</p>
       </div>
-      
       {% if current_user.plan == 'starter' %}
       <div style="text-align: right;">
-        <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 8px;">Usage: {{ current_user.analysis_count }}/{{ current_user.monthly_limit }}</div>
-        <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn--gold" style="padding: 10px 20px; font-size: 0.65rem;">Upgrade</a>
+        <p style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 8px;">Usage: {{ current_user.analysis_count }}/{{ current_user.monthly_limit }}</p>
+        <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn-gold" style="padding: 8px 16px; font-size: 0.8rem;">Upgrade</a>
       </div>
       {% endif %}
     </div>
 
     <div class="dash-content">
-
       <!-- ───────── TAB: OVERVIEW ───────── -->
       <div id="tab-overview" class="dash-tab">
-        <div class="metric-row-classy" style="margin-bottom: 60px;">
-          <div class="metric-item-classy">
-            <div class="metric-label-classy">Historical Intel</div>
-            <div class="metric-value-classy">{{ posts|length }}</div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Analyses</div>
+            <div class="stat-value">{{ posts|length }}</div>
           </div>
-          <div class="metric-item-classy">
-            <div class="metric-label-classy">Mean Hook Score</div>
-            <div class="metric-value-classy">
+          <div class="stat-card">
+            <div class="stat-label">Avg Hook Score</div>
+            <div class="stat-value">
               {% if posts %}{{ (posts | sum(attribute='hook_score') / posts|length)|int }}{% else %}—{% endif %}
             </div>
           </div>
-          <div class="metric-item-classy">
-            <div class="metric-label-classy">Peak Performance</div>
-            <div class="metric-value-classy">
+          <div class="stat-card">
+            <div class="stat-label">Peak Score</div>
+            <div class="stat-value">
               {% if posts %}{{ posts|map(attribute='hook_score')|max }}{% else %}—{% endif %}
             </div>
           </div>
-          <div class="metric-item-classy">
-            <div class="metric-label-classy">Intel Tier</div>
-            <div class="metric-value-classy" style="font-size: 1.2rem; text-transform: uppercase; letter-spacing: 4px;">{{ current_user.plan }}</div>
+          <div class="stat-card">
+            <div class="stat-label">Plan Tier</div>
+            <div class="stat-value" style="font-size: 1rem; text-transform: uppercase;">{{ current_user.plan }}</div>
           </div>
         </div>
 
-        <h2 style="font-size: 1.8rem; margin-bottom: 32px; font-family: 'Playfair Display'; border-bottom: 1px solid var(--line); padding-bottom: 12px;">Recent Artifacts</h2>
-        
-        {% if posts %}
-        <table class="classy-table">
-          <thead>
-            <tr>
-              <th>Content Snippet</th>
-              <th style="width: 100px;">Score</th>
-              <th style="width: 150px;">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for post in posts[:6] %}
-            <tr>
-              <td style="color: var(--text-muted);">{{ post.content[:100] }}...</td>
-              <td><span class="badge-gold">{{ post.hook_score }}</span></td>
-              <td style="color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">{{ post.created_at.strftime('%d %b %Y') }}</td>
-            </tr>
+        <div class="card">
+          <h2 style="font-size: 1.5rem; margin-bottom: 24px;">Recent Analyses</h2>
+          {% if posts %}
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            {% for post in posts[:5] %}
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 8px;">
+              <span style="color: var(--text-muted);">{{ post.content[:80] }}...</span>
+              <span class="badge badge-gold">{{ post.hook_score }}</span>
+            </div>
             {% endfor %}
-          </tbody>
-        </table>
-        {% else %}
-        <p style="color: var(--text-dim); font-style: italic;">No artifacts found. Begin your analysis below.</p>
-        {% endif %}
+          </div>
+          {% else %}
+          <p style="color: var(--text-muted);">No data yet. Start your first analysis.</p>
+          {% endif %}
+        </div>
       </div>
 
       <!-- ───────── TAB: ANALYZER ───────── -->
       <div id="tab-analyzer" class="dash-tab hidden">
-        <div style="max-width: 800px;">
-          <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; font-family: 'Lora', serif; font-style: italic;">
-            Paste your drafted copy below. Our intelligence engine will evaluate the resonance and provide refined alternatives.
-          </p>
+        <div class="card" style="max-width: 800px;">
+          <h2 style="font-size: 1.8rem; margin-bottom: 12px;">Post Analyzer</h2>
+          <p style="color: var(--text-muted); margin-bottom: 32px;">Input your draft social copy below for elite AI refinement.</p>
+          <textarea id="postContent" class="textarea-classy" style="height: 180px;" placeholder="Paste your caption here..."></textarea>
+          <button id="analyzeBtn" class="btn btn-gold" style="width: 100%; justify-content: center;" onclick="runAnalysis()">Run Intelligence Analysis</button>
           
-          <textarea id="postContent" class="classy-input" style="height: 200px; resize: none; margin-bottom: 40px;"
-            placeholder="Input your draft here..."></textarea>
-          
-          <button id="analyzeBtn" class="btn btn--gold" style="width: 100%; justify-content: center; padding: 20px;" onclick="runAnalysis()">
-            Run Analysis
-          </button>
-
-          <div id="resultBox" class="hidden" style="margin-top: 60px; padding-top: 60px; border-top: 1px solid var(--line);">
-            <div style="display: flex; gap: 40px; align-items: center; margin-bottom: 48px;">
-              <div style="width: 120px; height: 120px; border: 1px solid var(--accent-gold); display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div id="scoreNum" style="font-family: 'Playfair Display'; font-size: 3rem; color: var(--accent-gold);">0</div>
-                <div style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px;">Score</div>
+          <div id="resultBox" class="hidden" style="margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--line);">
+            <div style="display: flex; gap: 32px; align-items: center; margin-bottom: 32px;">
+              <div style="width: 100px; height: 100px; border: 2px solid var(--gold); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div id="scoreNum" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold);">0</div>
+                <div style="font-size: 0.6rem; text-transform: uppercase;">Score</div>
               </div>
-              <div style="flex: 1;">
-                <h3 style="font-size: 1.4rem; margin-bottom: 12px; font-family: 'Playfair Display';">Intel Summary</h3>
-                <p id="resultSummary" style="color: var(--text-muted); line-height: 1.8;"></p>
-              </div>
+              <p id="resultSummary" style="color: var(--text-muted); line-height: 1.6;"></p>
             </div>
-            
-            <div id="suggestionBox">
-              <h3 style="font-size: 1.1rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim);">Refinements</h3>
-              <ul id="suggestionList" style="list-style: none; display: flex; flex-direction: column; gap: 20px;"></ul>
-            </div>
+            <h3 style="font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; color: var(--gold);">Refinements</h3>
+            <ul id="suggestionList" style="list-style: none; display: flex; flex-direction: column; gap: 12px;"></ul>
           </div>
         </div>
       </div>
 
       <!-- ───────── TAB: CONNECTIONS ───────── -->
       <div id="tab-connect" class="dash-tab hidden">
-        <div style="max-width: 800px;">
-          <p style="color: var(--text-muted); margin-bottom: 48px; font-style: italic; font-family: 'Lora', serif;">Connect your official communication channels for comprehensive intelligence gathering.</p>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-            {% for platform in ['Instagram', 'Facebook', 'TikTok', 'Twitter / X'] %}
-            <div style="border: 1px solid var(--line); padding: 32px; display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <div style="font-size: 1.1rem; margin-bottom: 4px; font-family: 'Playfair Display';">{{ platform }}</div>
-                <div style="font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">Status: Awaiting Handshake</div>
-              </div>
-              <button class="btn btn--outline" style="padding: 8px 16px; font-size: 0.65rem;" onclick="alert('Intel portal opening soon.')">Link</button>
-            </div>
-            {% endfor %}
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 800px;">
+          {% for platform in ['Instagram', 'Facebook', 'TikTok', 'Twitter / X'] %}
+          <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 24px;">
+            <div style="font-size: 1.1rem; font-weight: 500;">{{ platform }}</div>
+            <button class="btn btn-outline" style="padding: 8px 16px; font-size: 0.75rem;" onclick="alert('Integration pending.')">Connect</button>
           </div>
+          {% endfor %}
         </div>
       </div>
 
       <!-- ───────── TAB: HISTORY ───────── -->
       <div id="tab-history" class="dash-tab hidden">
-        <div class="post-card-list">
+        <div style="display: flex; flex-direction: column; gap: 20px;">
           {% for post in posts %}
-          <div class="classy-card" style="margin-bottom: 24px; padding: 32px;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
-              <span class="badge-gold">{{ post.hook_score }}/100</span>
-              <span style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase;">{{ post.created_at.strftime('%d %B %H:%M') }}</span>
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+              <span class="badge badge-gold">{{ post.hook_score }}/100</span>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">{{ post.created_at.strftime('%d %b %H:%M') }}</span>
             </div>
-            <p style="font-family: 'Lora', serif; line-height: 1.8; color: var(--text-muted); margin-bottom: 24px;">"{{ post.content }}"</p>
+            <p style="color: #fff; margin-bottom: 16px;">"{{ post.content }}"</p>
             {% if post.summary %}
-            <div style="background: rgba(255,255,255,0.02); padding: 16px; font-size: 0.85rem; color: var(--text-dim); border-left: 1px solid var(--accent-gold);">
+            <div style="padding: 12px; background: rgba(255,255,255,0.02); border-left: 2px solid var(--gold); font-size: 0.9rem; color: var(--text-muted);">
               {{ post.summary }}
             </div>
             {% endif %}
@@ -186,69 +150,37 @@ const ANALYZER_URL = "{{ url_for('analyze') }}";
 
 function switchTab(name) {
   document.querySelectorAll('.dash-tab').forEach(t => t.classList.add('hidden'));
-  document.querySelectorAll('.dash-nav-item').forEach(b => b.classList.remove('dash-nav-item--active'));
-
-  const tab = document.getElementById('tab-' + name);
-  if(tab) tab.classList.remove('hidden');
-  
-  const navBtn = document.querySelector(`[data-tab="${name}"]`);
-  if(navBtn) navBtn.classList.add('dash-nav-item--active');
-
-  const titles = {
-    overview: 'Portal Overview',
-    analyzer: 'Intel Analyzer',
-    history:  'Historical Records',
-    connect:  'Handshakes',
-    billing:  'Account Tier'
-  };
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('nav-item-active'));
+  document.getElementById('tab-' + name)?.classList.remove('hidden');
+  document.querySelector(`[data-tab="${name}"]`)?.classList.add('nav-item-active');
+  const titles = { overview: 'Overview', analyzer: 'Analyzer', history: 'History', connect: 'Connections' };
   document.getElementById('pageTitle').textContent = titles[name] || name;
 }
 
-document.querySelectorAll('.dash-nav-item').forEach(btn => {
-  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-});
+document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
 
 async function runAnalysis() {
   const content = document.getElementById('postContent').value.trim();
-  if (!content) return;
-
+  if(!content) return;
   const btn = document.getElementById('analyzeBtn');
-  const result = document.getElementById('resultBox');
-
   btn.textContent = 'Analyzing...';
-  btn.disabled = true;
-
   try {
     const res = await fetch(ANALYZER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content }),
+      body: JSON.stringify({ content })
     });
     const data = await res.json();
-
-    if (data.error) {
-      alert(data.message || 'Analysis failed.');
-      return;
-    }
-
     document.getElementById('scoreNum').textContent = data.hookScore || 0;
     document.getElementById('resultSummary').textContent = data.summary || '';
-
     const ul = document.getElementById('suggestionList');
     ul.innerHTML = '';
-    (data.suggestions || []).forEach((s) => {
-      ul.innerHTML += `
-        <li style="padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--text-muted); font-size: 0.95rem;">
-          <span style="color: var(--accent-gold); margin-right: 12px;">→</span> ${s}
-        </li>`;
+    (data.suggestions || []).forEach(s => {
+      ul.innerHTML += `<li style="color: var(--text-muted); font-size: 0.95rem;">→ ${s}</li>`;
     });
-
-    result.classList.remove('hidden');
-  } catch (err) {
-    console.error(err);
+    document.getElementById('resultBox').classList.remove('hidden');
   } finally {
-    btn.textContent = 'Run Analysis';
-    btn.disabled = false;
+    btn.textContent = 'Run Intelligence Analysis';
   }
 }
 </script>
