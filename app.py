@@ -61,10 +61,24 @@ STRIPE_AGENCY_PRICE_ID  = os.getenv('STRIPE_AGENCY_PRICE_ID', '')
 APP_URL                 = os.getenv('APP_URL', 'http://localhost:5000')
 
 # ════════════════════════════════════════════════════════════════════
-#  OpenAI Setup
+#  OpenAI Setup  (lazy-loaded to avoid httpx version conflicts)
 # ════════════════════════════════════════════════════════════════════
-openai_client = OpenAI(api_key=os.getenv('OPENAI_API_KEY', ''))
-AI_MODEL      = 'gpt-4o-mini'
+_openai_client = None
+AI_MODEL       = 'gpt-4o-mini'
+
+
+def get_openai_client():
+    """Return a cached OpenAI client, initializing it on first use.
+
+    Deferring construction until the first request avoids the
+    ``TypeError: Client.__init__() got an unexpected keyword argument
+    'proxies'`` crash that occurs when openai==1.30.1 is paired with
+    httpx>=0.28.0 and the module is imported at startup.
+    """
+    global _openai_client
+    if _openai_client is None:
+        _openai_client = OpenAI(api_key=os.getenv('OPENAI_API_KEY', ''))
+    return _openai_client
 
 # ════════════════════════════════════════════════════════════════════
 #  Plan Limits
@@ -385,7 +399,7 @@ ALWAYS respond in this exact JSON format (nothing else):
 """
 
     try:
-        response = openai_client.chat.completions.create(
+        response = get_openai_client().chat.completions.create(
             model=AI_MODEL,
             messages=[
                 {'role': 'system', 'content': SYSTEM_PROMPT},
