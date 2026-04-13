@@ -11,18 +11,11 @@
     </div>
 
     <nav class="dash-nav" id="sideNav">
-      <button class="dash-nav-item dash-nav-item--active" data-tab="overview">
-        <span>📊</span> Overview
+      {% for link in nav_links %}
+      <button class="dash-nav-item {% if loop.first %}dash-nav-item--active{% endif %}" data-tab="{{ link.id }}">
+        <span>{{ link.icon }}</span> {{ link.label }}
       </button>
-      <button class="dash-nav-item" data-tab="analyzer">
-        <span>✦</span> AI Analyzer
-      </button>
-      <button class="dash-nav-item" data-tab="history">
-        <span>📋</span> Post History
-      </button>
-      <button class="dash-nav-item" data-tab="billing">
-        <span>💳</span> Billing
-      </button>
+      {% endfor %}
     </nav>
 
     <div class="dash-sidebar__bottom">
@@ -283,6 +276,59 @@
         </div>
       </div><!-- /history -->
 
+      <!-- ───────── TAB: CONNECTIONS ───────── -->
+      <div id="tab-connect" class="dash-tab hidden">
+        <div style="max-width: 800px">
+          <p style="color: var(--text-muted); margin-bottom: 32px">Connect your official social accounts to let Vyriq analyze your audience retention and recommend peak posting times.</p>
+          
+          <div class="social-grid">
+            <div class="social-card">
+              <div class="social-info">
+                <div class="social-icon icon-ig">📸</div>
+                <div>
+                  <div style="font-weight: 600">Instagram</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted)">Creator or Business Account</div>
+                </div>
+              </div>
+              <button class="btn btn--glass" onclick="alert('Meta App review in progress. This feature will be live in 24-48 hours!')">Connect</button>
+            </div>
+
+            <div class="social-card">
+              <div class="social-info">
+                <div class="social-icon icon-fb">🔵</div>
+                <div>
+                  <div style="font-weight: 600">Facebook</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted)">Public Pages</div>
+                </div>
+              </div>
+              <button class="btn btn--glass" onclick="alert('Meta App review in progress.')">Connect</button>
+            </div>
+
+            <div class="social-card">
+              <div class="social-info">
+                <div class="social-icon icon-tt">🎵</div>
+                <div>
+                  <div style="font-weight: 600">TikTok</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted)">Personal or Pro</div>
+                </div>
+              </div>
+              <button class="btn btn--glass" onclick="alert('Connection pending.')">Connect</button>
+            </div>
+
+            <div class="social-card">
+              <div class="social-info">
+                <div class="social-icon icon-tw">𝕏</div>
+                <div>
+                  <div style="font-weight: 600">Twitter / X</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted)">Standard API</div>
+                </div>
+              </div>
+              <button class="btn btn--glass" onclick="alert('Connection pending.')">Connect</button>
+            </div>
+          </div>
+        </div>
+      </div><!-- /connect -->
+
       <!-- ───────── TAB: BILLING ───────── -->
       <div id="tab-billing" class="dash-tab hidden">
         <div style="max-width:600px">
@@ -388,6 +434,7 @@ function switchTab(name) {
     overview: ['Overview', 'Your content intelligence at a glance'],
     analyzer: ['AI Analyzer', 'Paste a post and get your score in seconds'],
     history:  ['Post History', 'All your analyzed posts'],
+    connect:  ['Connections', 'Link your social accounts for deeper insights'],
     billing:  ['Billing', 'Manage your plan and subscription'],
   };
   document.getElementById('pageTitle').textContent = titles[name]?.[0] || name;

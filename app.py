@@ -145,6 +145,19 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+class SocialConnection(db.Model):
+    """Stores tokens for connected social accounts."""
+    __tablename__ = 'social_connections'
+
+    id          = db.Column(db.Integer, primary_key=True)
+    user_id     = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    platform    = db.Column(db.String(30), nullable=False)  # 'instagram', 'facebook', etc.
+    account_id  = db.Column(db.String(100))
+    token       = db.Column(db.Text)
+    is_active   = db.Column(db.Boolean, default=True)
+    created_at  = db.Column(db.DateTime, default=datetime.utcnow)
+
+
 @login_mgr.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
@@ -299,12 +312,24 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    """Main user workspace."""
     posts = Post.query.filter_by(user_id=current_user.id)\
                       .order_by(Post.created_at.desc())\
                       .limit(20).all()
+
+    # Dashboard navigation
+    nav_links = [
+        {'id': 'overview',  'icon': '📊', 'label': 'Overview'},
+        {'id': 'analyzer',  'icon': '✦', 'label': 'AI Analyzer'},
+        {'id': 'history',   'icon': '📋', 'label': 'Post History'},
+        {'id': 'connect',   'icon': '🔗', 'label': 'Connections'},
+        {'id': 'billing',   'icon': '💳', 'label': 'Billing'},
+    ]
+
     return render_template('dashboard.html',
                            posts=posts,
-                           plan_names=PLAN_NAMES)
+                           plan_names=PLAN_NAMES,
+                           nav_links=nav_links)
 
 
 # ════════════════════════════════════════════════════════════════════
