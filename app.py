@@ -63,7 +63,13 @@ APP_URL                 = os.getenv('APP_URL', 'http://localhost:5000')
 # ════════════════════════════════════════════════════════════════════
 #  OpenAI Setup
 # ════════════════════════════════════════════════════════════════════
-openai_client = OpenAI(api_key=os.getenv('OPENAI_API_KEY', ''))
+_openai_client = None
+
+def get_openai_client():
+    global _openai_client
+    if _openai_client is None:
+        _openai_client = OpenAI(api_key=os.getenv('OPENAI_API_KEY', ''))
+    return _openai_client
 AI_MODEL      = 'gpt-4o-mini'
 
 # ════════════════════════════════════════════════════════════════════
@@ -385,7 +391,7 @@ ALWAYS respond in this exact JSON format (nothing else):
 """
 
     try:
-        response = openai_client.chat.completions.create(
+        response = get_openai_client().chat.completions.create(
             model=AI_MODEL,
             messages=[
                 {'role': 'system', 'content': SYSTEM_PROMPT},
