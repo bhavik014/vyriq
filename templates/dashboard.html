@@ -1,51 +1,54 @@
 {% extends "base.html" %}
-{% block title %}The Portal — Vyriq Intelligence{% endblock %}
+{% block title %}The Sanctum — Vyriq Intelligence{% endblock %}
 
 {% block body %}
-<div class="dash-root">
-  <div class="noise-overlay"></div>
+<div class="noise"></div>
+<div class="glow" style="bottom: 0; right: 0;"></div>
 
+<div class="dash-root" style="background: var(--bg);">
+  
   <!-- ══ SIDEBAR ══════════════════════════════════════════════════ -->
-  <aside class="dash-sidebar">
-    <a href="{{ url_for('index') }}" class="logo-wrap" style="margin-bottom: 48px;">
-      <div class="logo-v" style="width: 36px; height: 36px; font-size: 1.2rem;">V</div>
-      <div class="logo-text" style="font-size: 1.5rem;">Vyriq</div>
+  <aside class="dash-sidebar" style="background: var(--bg-sub);">
+    <a href="{{ url_for('index') }}" class="logo-wrap" style="margin-bottom: 70px;">
+      <div class="logo-v">V</div>
+      <div class="logo-text">Vyriq</div>
     </a>
 
-    <nav style="display: flex; flex-direction: column; gap: 4px;">
+    <nav style="display: flex; flex-direction: column;">
       <button class="nav-item nav-item-active" data-tab="overview">📡 Overview</button>
-      <button class="nav-item" data-tab="analyzer">🎯 Hook Analyzer</button>
-      <button class="nav-item" data-tab="timing">🗓️ Optimal Timing</button>
-      <button class="nav-item" data-tab="hashtags">🏷️ Hashtag Intel</button>
-      <button class="nav-item" data-tab="history">📋 History</button>
-      <button class="nav-item" data-tab="connect">🔗 Connections</button>
+      <button class="nav-item" data-tab="analyzer">🎯 Hook Lab</button>
+      <button class="nav-item" data-tab="timing">🗓️ Temporal</button>
+      <button class="nav-item" data-tab="hashtags">🏷️ Hashtags</button>
+      <button class="nav-item" data-tab="history">📋 Archives</button>
+      <button class="nav-item" data-tab="connect">🔗 Handshake</button>
     </nav>
 
-    <div style="margin-top: auto; padding-top: 24px; border-top: 1px solid var(--line);">
-      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-        <div style="width: 40px; height: 40px; background: var(--gold); border-radius: 4px; color: #000; display: flex; align-items: center; justify-content: center; font-weight: 800; font-family: 'Playfair Display';">
+    <div style="margin-top: auto; padding-top: 40px;">
+      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 32px;">
+        <div style="width: 44px; height: 44px; background: var(--gold); border-radius: 4px; color: #000; display: flex; align-items: center; justify-content: center; font-weight: 800; font-family: 'Instrument Serif'; font-size: 1.2rem;">
           {{ current_user.initials }}
         </div>
         <div>
-          <div style="font-size: 0.9rem; font-weight: 600;">{{ current_user.name }}</div>
-          <div style="font-size: 0.7rem; color: var(--gold); text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">{{ plan_names[current_user.plan] }}</div>
+          <div style="font-size: 0.9rem; font-weight: 600; letter-spacing: 0.5px;">{{ current_user.name }}</div>
+          <div style="font-size: 0.6rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">Tier: {{ current_user.plan }}</div>
         </div>
       </div>
-      <a href="{{ url_for('logout') }}" class="btn btn-outline" style="width: 100%; border-radius: 4px; padding: 10px; font-size: 0.75rem;">SIGN OUT</a>
+      <a href="{{ url_for('logout') }}" class="btn btn-outline" style="width: 100%; border-radius: 4px; padding: 12px; font-size: 0.7rem; letter-spacing: 2px;">TERMINATE SESSION</a>
     </div>
   </aside>
 
   <!-- ══ MAIN ═════════════════════════════════════════════════════ -->
-  <main class="dash-main">
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px;">
+  <main class="dash-main" style="padding: 80px 100px;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 80px;" class="reveal">
       <div>
-        <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); font-weight: 800; margin-bottom: 12px;">SYSTEMS STATUS: ONLINE</div>
-        <h1 style="font-size: 2.8rem;" id="pageTitle">Overview</h1>
+        <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 5px; color: var(--gold); font-weight: 800; margin-bottom: 16px;">V2.4 Protocol</div>
+        <h1 style="font-size: 4rem;" id="pageTitle">Overview</h1>
       </div>
       {% if current_user.plan == 'starter' %}
       <div style="text-align: right;">
-        <p style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Analysis: {{ current_user.analysis_count }}/{{ current_user.monthly_limit }}</p>
-        <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn-gold" style="padding: 10px 20px; font-size: 0.8rem;">UPGRADE</a>
+        <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;">Analyses: {{ current_user.analysis_count }}/{{ current_user.monthly_limit }}</div>
+        <a href="{{ url_for('create_checkout_session', plan='creator') }}" class="btn btn-gold" style="padding: 10px 24px; font-size: 0.7rem;">UPGRADE PORTAL</a>
       </div>
       {% endif %}
     </div>
@@ -53,122 +56,111 @@
     <div class="dash-content">
       
       <!-- 📡 TAB: OVERVIEW -->
-      <div id="tab-overview" class="dash-tab">
-        <div class="mock-metrics" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 40px;">
-          <div class="mock-metric-card" style="padding: 30px;">
-            <div class="mock-metric-label">Avg. Engagement</div>
-            <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold);">7.4%</div>
-            <div class="mock-metric-delta">↑ +2.1%</div>
+      <div id="tab-overview" class="dash-tab reveal">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 60px;">
+          <div class="card-dark" style="padding: 40px; border-color: var(--line);">
+            <div style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:12px;">Hook Efficiency</div>
+            <div style="font-size:3.5rem; font-family:'Instrument Serif'; color:var(--gold);">91.4%</div>
+            <div style="font-size:0.8rem; color:var(--green);">↑ Top 5% Globally</div>
           </div>
-          <div class="mock-metric-card" style="padding: 30px;">
-            <div class="mock-metric-label">Best Post Time</div>
-            <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold);">7–9 AM</div>
-            <div class="mock-metric-delta">↑ Tue & Thu</div>
+          <div class="card-dark" style="padding: 40px; border-color: var(--line);">
+            <div style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:12px;">Peak Temporal</div>
+            <div style="font-size:3.5rem; font-family:'Instrument Serif'; color:var(--gold);">09:41</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">AM Tuesday</div>
           </div>
-          <div class="mock-metric-card" style="padding: 30px;">
-            <div class="mock-metric-label">Mean Hook</div>
-            <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold);">
-              {% if posts %}{{ (posts | sum(attribute='hook_score') / posts|length)|int }}{% else %}88{% endif %}
-            </div>
-          </div>
-          <div class="mock-metric-card" style="padding: 30px;">
-            <div class="mock-metric-label">Viral Status</div>
-            <div class="mock-metric-val" style="font-family: 'Playfair Display'; font-size: 1.2rem; text-transform: uppercase;">ELITE</div>
+          <div class="card-dark" style="padding: 40px; border-color: var(--line);">
+            <div style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:12px;">Neural Status</div>
+            <div style="font-size:1.8rem; font-family:'Instrument Serif'; color:var(--white); margin-top:20px;">CALIBRATED</div>
+            <div style="font-size:0.8rem; color:var(--gold);">ELITE VIBE</div>
           </div>
         </div>
 
-        <div class="mock-insight-box" style="margin-bottom: 40px; padding: 32px;">
-          <div class="mock-insight-icon" style="width: 48px; height: 48px; font-size: 1.5rem;">✦</div>
-          <div>
-            <div class="mock-insight-title" style="font-size: 0.9rem;">VYRIQ WEEKLY INTELLIGENCE BRIEF</div>
-            <p class="mock-insight-text" style="font-size: 1.1rem; line-height: 1.6;">Your Tuesday posts get <strong>3.2× more saves</strong> than any other day. Avoid posting on Saturday evening as engagement drops by 40%. Focus your best content for 9 AM Tuesday.</p>
-          </div>
+        <div style="background: rgba(196,150,58,0.03); border: 1px solid rgba(196,150,58,0.1); padding: 48px; border-radius: 8px;">
+          <div style="font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 24px;">✦ Weekly Neural Brief</div>
+          <p style="font-size: 1.4rem; line-height: 1.6; font-family: 'Instrument Serif'; color: var(--white);">"Your Tuesday morning posts show 3.2x higher save rates. Avoid posting on Saturday evening as engagement drops by 40%. Focus your best content for 10 AM Tuesday."</p>
         </div>
       </div>
 
       <!-- 🎯 TAB: ANALYZER -->
-      <div id="tab-analyzer" class="dash-tab hidden">
-        <div class="mock-metric-card" style="max-width: 900px; padding: 48px;">
-          <h2 style="font-size: 2.2rem; margin-bottom: 12px;">Refinement Engine</h2>
-          <p style="color: var(--text-muted); margin-bottom: 40px; font-size: 1.1rem;">Paste your copy for real-time scoring and improvements.</p>
-          <textarea id="postContent" style="width: 100%; height: 200px; background: #000; border: 1px solid var(--line); border-radius: 4px; padding: 24px; color: #fff; font-size: 1.1rem; margin-bottom: 32px; outline: none; transition: 0.3s; line-height: 1.6;"></textarea>
-          <button id="analyzeBtn" class="btn btn-gold" style="width: 100%; justify-content: center; padding: 20px; font-size: 1rem;" onclick="runAnalysis()">RUN ANALYSIS</button>
+      <div id="tab-analyzer" class="dash-tab hidden reveal">
+        <div style="max-width: 1000px;">
+          <h2 style="font-size: 3rem; margin-bottom: 16px;">The <em>Hook Lab.</em></h2>
+          <p style="color: var(--text-muted); margin-bottom: 56px; font-size: 1.2rem;">Analyze patterns. Perfect the opening. Control the growth.</p>
           
-          <div id="resultBox" class="hidden" style="margin-top: 60px; padding-top: 60px; border-top: 1px solid var(--line);">
-             <div style="font-size: 0.6rem; color: var(--gold); text-transform: uppercase; margin-bottom: 24px;">↑ LIVE ANALYSIS RESULT</div>
-             <div style="display: flex; gap: 48px; align-items: center; margin-bottom: 48px;">
-              <div style="width: 120px; height: 120px; border: 2px solid var(--gold); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div id="scoreNum" style="font-family: 'Playfair Display'; font-size: 3rem; color: var(--gold);">0</div>
-                <div style="font-size: 0.6rem; text-transform: uppercase; font-weight: 800;">/ 100</div>
+          <div style="background: var(--bg-sub); border: 1px solid var(--line); border-radius: 12px; padding: 60px;">
+            <textarea id="postContent" style="width: 100%; height: 260px; background: #000; border: 1px solid var(--line); border-radius: 4px; padding: 40px; color: #fff; font-size: 1.2rem; margin-bottom: 40px; outline: none; transition: 0.4s var(--ease); line-height: 1.8; font-family:'Inter';" placeholder="Paste your draft here..."></textarea>
+            <button id="analyzeBtn" class="btn btn-gold" style="width: 100%; padding: 24px; font-size: 0.9rem;" onclick="runAnalysis()">RUN NEURAL ANALYSIS</button>
+            
+            <div id="resultBox" class="hidden" style="margin-top: 80px; padding-top: 80px; border-top: 1px solid var(--line);">
+               <div style="display: flex; gap: 60px; align-items: center; margin-bottom: 60px;">
+                <div style="width: 160px; height: 160px; border: 2px solid var(--gold); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                  <div id="scoreNum" style="font-family: 'Instrument Serif'; font-size: 4rem; color: var(--gold);">0</div>
+                  <div style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; letter-spacing: 2px;">Score</div>
+                </div>
+                <div style="flex: 1;">
+                  <h3 id="resultStatus" style="font-size: 2.8rem; margin-bottom: 12px;">Exceptional</h3>
+                  <p id="resultSummary" style="color: var(--text-muted); line-height: 1.8; font-size: 1.2rem;"></p>
+                </div>
               </div>
-              <div style="flex: 1;">
-                <h3 id="resultStatus" style="font-size: 2rem; margin-bottom: 8px;">Analyzing...</h3>
-                <p id="resultSummary" style="color: var(--text-muted); line-height: 1.8; font-size: 1.1rem;"></p>
-              </div>
+              <div id="suggestionList" style="display: flex; flex-direction: column; gap: 20px;"></div>
             </div>
-            <div id="suggestionList" style="display: flex; flex-direction: column; gap: 16px;"></div>
           </div>
         </div>
       </div>
 
       <!-- 🗓️ TAB: TIMING -->
-      <div id="tab-timing" class="dash-tab hidden">
-        <div class="mock-metric-card" style="padding: 48px; max-width: 900px;">
-          <h2 style="font-size: 2rem; margin-bottom: 24px;">Optimal Efficiency Maps</h2>
-          <div class="mock-chart" style="height: 200px; opacity: 1; margin: 40px 0;">
-            <div class="chart-bar" style="height: 30%; background: var(--line)"></div>
-            <div class="chart-bar" style="height: 90%; background: var(--gold)"></div>
-            <div class="chart-bar" style="height: 40%; background: var(--line)"></div>
-            <div class="chart-bar" style="height: 85%; background: var(--gold)"></div>
-            <div class="chart-bar" style="height: 50%; background: var(--line)"></div>
-            <div class="chart-bar" style="height: 35%; background: var(--line)"></div>
-            <div class="chart-bar" style="height: 20%; background: var(--line)"></div>
+      <div id="tab-timing" class="dash-tab hidden reveal">
+        <div class="card-dark" style="padding: 60px; border-color: var(--line);">
+          <h2 style="font-size: 2.5rem; margin-bottom: 40px;">Temporal <em>Maps.</em></h2>
+          <div style="height: 300px; display: flex; align-items: flex-end; gap: 16px; margin-bottom: 60px;">
+            <div style="flex:1; height:40%; background:var(--line); border-radius:4px;"></div>
+            <div style="flex:1; height:90%; background:var(--gold); border-radius:4px; box-shadow: 0 0 30px var(--gold-glow);"></div>
+            <div style="flex:1; height:60%; background:var(--line); border-radius:4px;"></div>
+            <div style="flex:1; height:85%; background:var(--gold); border-radius:4px; box-shadow: 0 0 30px var(--gold-glow);"></div>
+            <div style="flex:1; height:30%; background:var(--line); border-radius:4px;"></div>
+            <div style="flex:1; height:10%; background:var(--line); border-radius:4px;"></div>
+            <div style="flex:1; height:5%; background:var(--line); border-radius:4px;"></div>
           </div>
-          <div style="display:flex; justify-content:between; border-top: 1px solid var(--line); padding-top: 24px;">
-            <div style="flex: 1; text-align: center;">
-              <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Peak Engagement</div>
-              <div style="font-size: 1.5rem; font-family: 'Playfair Display'; color: var(--gold);">9:14 AM</div>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; padding-top: 40px; border-top: 1px solid var(--line);">
+            <div>
+              <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:3px; margin-bottom:12px;">Peak Performance Window</div>
+              <div style="font-size:2.5rem; font-family:'Instrument Serif'; color:var(--gold);">09:00 — 11:30 AM</div>
             </div>
-            <div style="width: 1px; background: var(--line);"></div>
-            <div style="flex: 1; text-align: center;">
-              <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Primary Day</div>
-              <div style="font-size: 1.5rem; font-family: 'Playfair Display'; color: var(--gold);">Tuesday</div>
+            <div>
+              <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:3px; margin-bottom:12px;">Most Active Context</div>
+              <div style="font-size:2.5rem; font-family:'Instrument Serif'; color:var(--gold);">Tuesday & Thursday</div>
             </div>
           </div>
         </div>
       </div>
 
-       <!-- 🏷️ TAB: HASHTAGS -->
-       <div id="tab-hashtags" class="dash-tab hidden">
-        <div class="mock-metric-card" style="padding: 48px; max-width: 800px;">
-          <h2 style="font-size: 2rem; margin-bottom: 12px;">Auto-Resonance Generator</h2>
-          <p style="color: var(--text-muted); margin-bottom: 40px;">Select your content category to generate high-conversion tags.</p>
-          <div style="display: flex; gap: 12px; margin-bottom: 40px;">
-            <span class="badge-gold" style="padding: 12px 24px; cursor: pointer;">Lifestyle</span>
-            <span class="btn btn-outline" style="padding: 12px 24px; border-radius: 4px; font-size: 0.7rem;">Business</span>
-            <span class="btn btn-outline" style="padding: 12px 24px; border-radius: 4px; font-size: 0.7rem;">Tech</span>
-          </div>
-          <div id="hashtagList" style="display: flex; flex-wrap: wrap; gap: 12px;">
-            <div style="background: rgba(196,150,58,0.1); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 4px; font-size: 0.9rem; color: var(--gold);">#creativeentrepreneur</div>
-            <div style="background: rgba(196,150,58,0.1); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 4px; font-size: 0.9rem; color: var(--gold);">#contentstrategy</div>
-            <div style="background: rgba(196,150,58,0.1); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 4px; font-size: 0.9rem; color: var(--gold);">#aigrowth</div>
-            <div style="background: rgba(196,150,58,0.1); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 4px; font-size: 0.9rem; color: var(--gold);">#creatorperformance</div>
+      <!-- 🏷️ TAB: HASHTAGS -->
+      <div id="tab-hashtags" class="dash-tab hidden reveal">
+        <div class="card-dark" style="padding: 60px; max-width: 900px;">
+          <h2 style="font-size: 2.5rem; margin-bottom: 12px;">Tag <em>Resonance.</em></h2>
+          <p style="color: var(--text-muted); margin-bottom: 50px; font-size: 1.1rem;">Surface the symbols that drive the algorithm.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+            {% for tag in ['#aestheticedit', '#protocol', '#neuralflow', '#growthhacking', '#creativestrategy', '#vyriq', '#performancedata'] %}
+            <div style="padding: 16px 28px; border: 1px solid var(--line); border-radius: 100px; font-size: 1rem; color: var(--gold); background: rgba(255,255,255,0.02); transition:0.3s;" onmouseover="this.style.borderColor='var(--gold)';" onmouseout="this.style.borderColor='var(--line)';">
+              {{ tag }}
+            </div>
+            {% endfor %}
           </div>
         </div>
       </div>
 
       <!-- 📋 TAB: HISTORY -->
-      <div id="tab-history" class="dash-tab hidden">
-        <div style="display: flex; flex-direction: column; gap: 24px;">
+      <div id="tab-history" class="dash-tab hidden reveal">
+        <div style="display: flex; flex-direction: column; gap: 32px;">
           {% for post in posts %}
-          <div class="mock-metric-card" style="padding: 40px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
-              <span class="badge-gold">{{ post.hook_score }} SCORE</span>
-              <span style="font-size: 0.8rem; color: var(--text-dim);">{{ post.created_at.strftime('%d %b %H:%M') }}</span>
+          <div class="card-dark" style="padding: 60px; border-color: var(--line);">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+              <span class="stat-pill" style="border-radius:4px; font-size:0.8rem; padding:8px 20px;">Score: {{ post.hook_score }}</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px;">Archive / {{ post.created_at.strftime('%m.%d.%H:%M') }}</span>
             </div>
-            <p style="font-size: 1.2rem; line-height: 1.6; color: #fff; margin-bottom: 20px;">"{{ post.content }}"</p>
+            <p style="font-size: 1.5rem; line-height: 1.6; color: #fff; font-family:'Instrument Serif'; font-style:normal;">"{{ post.content }}"</p>
             {% if post.summary %}
-            <div style="padding: 16px; border-left: 2px solid var(--gold); background: rgba(255,255,255,0.02); font-size: 0.95rem; color: var(--text-muted);">
+            <div style="margin-top: 40px; padding: 24px; background: rgba(255,255,255,0.02); border-left: 1px solid var(--gold); color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
               {{ post.summary }}
             </div>
             {% endif %}
@@ -178,15 +170,15 @@
       </div>
 
       <!-- 🔗 TAB: CONNECTIONS -->
-      <div id="tab-connect" class="dash-tab hidden">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px;">
-          {% for platform in ['Instagram Professional', 'Facebook Business', 'TikTok Performance', 'Twitter / X Engine'] %}
-          <div class="mock-metric-card" style="display: flex; justify-content: space-between; align-items: center; padding: 32px;">
+      <div id="tab-connect" class="dash-tab hidden reveal">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 1000px;">
+          {% for platform in ['Instagram Professional', 'Twitter Core', 'TikTok Performance', 'LinkedIn Intelligence'] %}
+          <div class="card-dark" style="display: flex; justify-content: space-between; align-items: center; padding: 48px; border-color: var(--line);">
             <div>
-              <div style="font-size: 1.2rem; margin-bottom: 4px; font-family: 'Playfair Display';">{{ platform }}</div>
-              <div style="font-size: 0.65rem; color: var(--text-dim);">STATUS: AWAITING HANDSHAKE</div>
+              <div style="font-size: 1.6rem; margin-bottom: 4px; font-family: 'Instrument Serif';">{{ platform }}</div>
+              <div style="font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 3px;">Status: Standby</div>
             </div>
-            <button class="btn btn-gold" style="padding: 10px 20px; border-radius: 4px; font-size: 0.75rem;" onclick="alert('Integration Module initializing.')">CONNECT</button>
+            <button class="btn btn-outline" style="padding: 12px 24px; font-size: 0.7rem; letter-spacing: 2px;" onclick="alert('Module Online')">INITIATE</button>
           </div>
           {% endfor %}
         </div>
@@ -202,9 +194,9 @@ const ANALYZER_URL = "{{ url_for('analyze') }}";
 function switchTab(name) {
   document.querySelectorAll('.dash-tab').forEach(t => t.classList.add('hidden'));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('nav-item-active'));
-  document.getElementById('tab-' + name)?.classList.remove('hidden');
-  document.querySelector(`[data-tab="${name}"]`)?.classList.add('nav-item-active');
-  const titles = { overview: 'Overview', analyzer: 'Hook Analyzer', timing: 'Optimal Timing', hashtags: 'Hashtag Intel', history: 'History', connect: 'Connections' };
+  document.getElementById('tab-' + name).classList.remove('hidden');
+  document.querySelector(`[data-tab="${name}"]`).classList.add('nav-item-active');
+  const titles = { overview: 'Overview', analyzer: 'Hook Lab', timing: 'Temporal', hashtags: 'Tag Resonance', history: 'Archives', connect: 'Handshake' };
   document.getElementById('pageTitle').textContent = titles[name] || name;
 }
 
@@ -215,7 +207,7 @@ async function runAnalysis() {
   if(!content) return;
   const btn = document.getElementById('analyzeBtn');
   const resBox = document.getElementById('resultBox');
-  btn.textContent = 'RUNNING INTELLIGENCE ANALYSIS...';
+  btn.textContent = 'RUNNING NEURAL ANALYSIS...';
   btn.disabled = true;
 
   try {
@@ -227,20 +219,22 @@ async function runAnalysis() {
     const data = await res.json();
     
     document.getElementById('scoreNum').textContent = data.hookScore || 0;
-    document.getElementById('resultStatus').textContent = data.hookScore > 80 ? 'Exceptional Hook' : 'Solid Performance';
+    document.getElementById('resultStatus').textContent = data.hookScore > 85 ? 'Exceptional' : 'Calibrating';
     document.getElementById('resultSummary').textContent = data.summary || '';
     
     const ul = document.getElementById('suggestionList');
     ul.innerHTML = '';
     (data.suggestions || []).forEach((s, idx) => {
       ul.innerHTML += `
-        <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 6px; font-size: 0.9rem; display: flex; gap: 12px;">
-          <span style="color:var(--gold); font-weight: 800;">${idx+1}</span> ${s}
+        <div style="background: rgba(255,255,255,0.03); padding: 24px; border: 1px solid var(--line); border-radius: 8px; font-size: 1rem; display: flex; gap: 20px; line-height:1.6;">
+          <span style="color:var(--gold); font-weight: 800; font-family:'Instrument Serif'; font-size:1.5rem;">0${idx+1}</span> 
+          <span style="color:var(--text-muted);">${s}</span>
         </div>`;
     });
     resBox.classList.remove('hidden');
+    resBox.scrollIntoView({ behavior: 'smooth' });
   } finally {
-    btn.textContent = 'RUN ANALYSIS';
+    btn.textContent = 'RUN NEURAL ANALYSIS';
     btn.disabled = false;
   }
 }

@@ -2,41 +2,39 @@
 {% block title %}Authentication — Vyriq Intelligence{% endblock %}
 
 {% block body %}
-<div style="min-height: 100vh; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 40px;">
-  <div style="width: 100%; max-width: 440px;">
+<div class="noise"></div>
+<div class="glow" style="top: 0; left: 0;"></div>
+<div class="glow" style="bottom: 0; right: 0; background: radial-gradient(circle, rgba(142, 45, 226, 0.05) 0%, transparent 70%);"></div>
+
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px; position: relative; z-index: 10;">
+  <div style="width: 100%; max-width: 460px;" class="reveal">
     
-    <div style="text-align: center; margin-bottom: 48px;">
-      <a href="{{ url_for('index') }}" class="logo-wrap" style="justify-content: center; margin-bottom: 32px;">
-        <div class="logo-v" style="width: 44px; height: 44px; font-size: 1.6rem;">V</div>
-        <div class="logo-text" style="font-size: 2rem;">Vyriq</div>
+    <div style="text-align: center; margin-bottom: 56px;">
+      <a href="{{ url_for('index') }}" class="logo-wrap" style="justify-content: center; margin-bottom: 40px;">
+        <div class="logo-v">V</div>
+        <div class="logo-text">Vyriq</div>
       </a>
-      <h1 style="font-size: 2.2rem; margin-bottom: 12px;">Sign in to Portal</h1>
-      <p style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; font-weight: 700;">Enter your private credentials</p>
+      <h1 style="font-size:3rem; margin-bottom: 12px;">Welcome <em>Back.</em></h1>
+      <p style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; font-size: 0.75rem; font-weight: 700;">Initiate Protocol Access</p>
     </div>
 
-    <div class="mock-metric-card" style="padding: 40px;">
+    <div class="card-dark" style="padding: 56px; box-shadow: 0 40px 100px rgba(0,0,0,0.8);">
       <form method="POST" action="{{ url_for('login') }}">
-        <div style="margin-bottom: 24px;">
-          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px;">Email Address</label>
-          <input type="email" name="email" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 16px; color: #fff; border-radius: 4px; outline: none;" placeholder="name@company.com" required />
-        </div>
         <div style="margin-bottom: 32px;">
-          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px;">Security Password</label>
-          <input type="password" name="password" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 16px; color: #fff; border-radius: 4px; outline: none;" placeholder="••••••••" required />
+          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; font-weight:700;">Identity (Email)</label>
+          <input type="email" name="email" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 20px; color: #fff; border-radius: 4px; outline: none; transition: 0.3s;" placeholder="name@domain.com" required />
         </div>
-        <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center; padding: 18px; border-radius: 4px;">INITIALIZE ACCESS →</button>
+        <div style="margin-bottom: 40px;">
+          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; font-weight:700;">Authorization (Pass)</label>
+          <input type="password" name="password" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 20px; color: #fff; border-radius: 4px; outline: none; transition: 0.3s;" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%; padding: 20px;">ACCESS ARCHIVES →</button>
       </form>
-      
-      <div style="margin-top: 32px; text-align: center;">
-        <p style="font-size: 0.85rem; color: var(--text-muted);">
-          Institutional access lost? <a href="#" style="color: var(--gold); text-decoration: none;">Contact Admin</a>
-        </p>
-      </div>
     </div>
 
-    <div style="margin-top: 32px; text-align: center;">
+    <div style="margin-top: 48px; text-align: center;">
       <p style="color: var(--text-muted); font-size: 0.9rem;">
-        New to the intelligence? <a href="{{ url_for('signup') }}" style="color: #fff; text-decoration: none; font-weight: 600;">Establish Account</a>
+        New operative? <a href="{{ url_for('signup') }}" style="color: #fff; text-decoration: none; font-weight: 600; border-bottom: 1px solid var(--gold);">Establish Account</a>
       </p>
     </div>
   </div>
