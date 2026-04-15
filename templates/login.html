@@ -2,39 +2,40 @@
 {% block title %}Authentication — Vyriq Intelligence{% endblock %}
 
 {% block body %}
-<div class="noise"></div>
-<div class="glow" style="top: 0; left: 0;"></div>
-<div class="glow" style="bottom: 0; right: 0; background: radial-gradient(circle, rgba(142, 45, 226, 0.05) 0%, transparent 70%);"></div>
+<div class="ambient-bg">
+  <div class="ambient-orb orb-1" style="background: rgba(212, 175, 55, 0.08); top: -200px; left: -200px;"></div>
+  <div class="ambient-orb orb-2" style="background: rgba(255, 255, 255, 0.05); bottom: -100px; right: -100px;"></div>
+</div>
+<div class="grid-overlay"></div>
 
 <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px; position: relative; z-index: 10;">
-  <div style="width: 100%; max-width: 460px;" class="reveal">
+  <div style="width: 100%; max-width: 480px;">
     
-    <div style="text-align: center; margin-bottom: 56px;">
-      <a href="{{ url_for('index') }}" class="logo-wrap" style="justify-content: center; margin-bottom: 40px;">
-        <div class="logo-v">V</div>
-        <div class="logo-text">Vyriq</div>
+    <div style="text-align: center; margin-bottom: 50px;">
+      <a href="{{ url_for('index') }}" style="display:inline-flex; align-items:center; gap:12px; text-decoration:none; margin-bottom:40px;">
+        <div class="logo-v" style="width:50px; height:50px; font-size:1.8rem; border-radius:14px;">V</div>
       </a>
-      <h1 style="font-size:3rem; margin-bottom: 12px;">Welcome <em>Back.</em></h1>
-      <p style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; font-size: 0.75rem; font-weight: 700;">Initiate Protocol Access</p>
+      <h1 class="text-gradient" style="font-size:3.5rem; margin-bottom: 12px; font-family:'Playfair Display'; line-height:1;">Access Vector</h1>
+      <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Confirm origin to enter the portal.</p>
     </div>
 
-    <div class="card-dark" style="padding: 56px; box-shadow: 0 40px 100px rgba(0,0,0,0.8);">
+    <div class="glass-panel" style="padding: 50px; box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);">
       <form method="POST" action="{{ url_for('login') }}">
-        <div style="margin-bottom: 32px;">
-          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; font-weight:700;">Identity (Email)</label>
-          <input type="email" name="email" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 20px; color: #fff; border-radius: 4px; outline: none; transition: 0.3s;" placeholder="name@domain.com" required />
+        <div style="margin-bottom: 24px;">
+          <label style="display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px; font-weight:600;">Neural Identifier (Email)</label>
+          <input type="email" name="email" style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-light); padding: 18px; color: #fff; border-radius: 12px; outline: none; transition: 0.3s; font-family:'Outfit';" placeholder="name@domain.com" required onfocus="this.style.borderColor='var(--gold-main)'" onblur="this.style.borderColor='var(--border-light)'" />
         </div>
         <div style="margin-bottom: 40px;">
-          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; font-weight:700;">Authorization (Pass)</label>
-          <input type="password" name="password" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 20px; color: #fff; border-radius: 4px; outline: none; transition: 0.3s;" placeholder="••••••••" required />
+          <label style="display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px; font-weight:600;">Execution Key (Password)</label>
+          <input type="password" name="password" style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-light); padding: 18px; color: #fff; border-radius: 12px; outline: none; transition: 0.3s; font-family:'Outfit';" placeholder="••••••••" required onfocus="this.style.borderColor='var(--gold-main)'" onblur="this.style.borderColor='var(--border-light)'" />
         </div>
-        <button type="submit" class="btn btn-gold" style="width: 100%; padding: 20px;">ACCESS ARCHIVES →</button>
+        <button type="submit" class="btn btn-gold" style="width: 100%; padding: 20px; font-size:1.1rem; border-radius:12px;">Initialize Access</button>
       </form>
     </div>
 
-    <div style="margin-top: 48px; text-align: center;">
-      <p style="color: var(--text-muted); font-size: 0.9rem;">
-        New operative? <a href="{{ url_for('signup') }}" style="color: #fff; text-decoration: none; font-weight: 600; border-bottom: 1px solid var(--gold);">Establish Account</a>
+    <div style="margin-top: 40px; text-align: center;">
+      <p style="color: var(--text-muted); font-size: 1rem;">
+        Unregistered? <a href="{{ url_for('signup') }}" style="color: var(--gold-light); text-decoration: none; font-weight: 600;">Establish Sequence</a>
       </p>
     </div>
   </div>

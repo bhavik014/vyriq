@@ -1,40 +1,45 @@
 {% extends "base.html" %}
-{% block title %}Establish Account — Vyriq Intelligence{% endblock %}
+{% block title %}Establish Sequence — Vyriq Intelligence{% endblock %}
 
 {% block body %}
-<div style="min-height: 100vh; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 40px;">
-  <div style="width: 100%; max-width: 440px;">
+<div class="ambient-bg">
+  <div class="ambient-orb orb-1" style="background: rgba(212, 175, 55, 0.08); top: -200px; left: -200px;"></div>
+  <div class="ambient-orb orb-2" style="background: rgba(255, 255, 255, 0.05); bottom: -100px; right: -100px;"></div>
+</div>
+<div class="grid-overlay"></div>
+
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px; position: relative; z-index: 10;">
+  <div style="width: 100%; max-width: 480px;">
     
-    <div style="text-align: center; margin-bottom: 48px;">
-      <a href="{{ url_for('index') }}" class="logo-wrap" style="justify-content: center; margin-bottom: 32px;">
-        <div class="logo-v" style="width: 44px; height: 44px; font-size: 1.6rem;">V</div>
-        <div class="logo-text" style="font-size: 2rem;">Vyriq</div>
+    <div style="text-align: center; margin-bottom: 50px;">
+      <a href="{{ url_for('index') }}" style="display:inline-flex; align-items:center; gap:12px; text-decoration:none; margin-bottom:40px;">
+        <div class="logo-v" style="width:50px; height:50px; font-size:1.8rem; border-radius:14px;">V</div>
       </a>
-      <h1 style="font-size: 2.2rem; margin-bottom: 12px;">Create Account</h1>
-      <p style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; font-weight: 700;">Join the performance inner circle</p>
+      <h1 class="text-gradient" style="font-size:3.5rem; margin-bottom: 12px; font-family:'Playfair Display'; line-height:1;">New Directive</h1>
+      <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 300;">Establish your origin to access the portal.</p>
     </div>
 
-    <div class="mock-metric-card" style="padding: 40px;">
+    <div class="glass-panel" style="padding: 50px; box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);">
       <form method="POST" action="{{ url_for('signup') }}">
         <div style="margin-bottom: 24px;">
-          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px;">Full Legal Name</label>
-          <input type="text" name="name" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 16px; color: #fff; border-radius: 4px; outline: none;" placeholder="Alexander Pierce" required />
+          <label style="display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px; font-weight:600;">Full Identifier (Name)</label>
+          <input type="text" name="name" style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-light); padding: 18px; color: #fff; border-radius: 12px; outline: none; transition: 0.3s; font-family:'Outfit';" placeholder="Alexander Pierce" required onfocus="this.style.borderColor='var(--gold-main)'" onblur="this.style.borderColor='var(--border-light)'" />
         </div>
         <div style="margin-bottom: 24px;">
-          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px;">Email Address</label>
-          <input type="email" name="email" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 16px; color: #fff; border-radius: 4px; outline: none;" placeholder="name@company.com" required />
+          <label style="display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px; font-weight:600;">Neural Identifier (Email)</label>
+          <input type="email" name="email" style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-light); padding: 18px; color: #fff; border-radius: 12px; outline: none; transition: 0.3s; font-family:'Outfit';" placeholder="name@domain.com" required onfocus="this.style.borderColor='var(--gold-main)'" onblur="this.style.borderColor='var(--border-light)'" />
         </div>
-        <div style="margin-bottom: 32px;">
-          <label style="display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px;">Choose Password</label>
-          <input type="password" name="password" style="width: 100%; background: #000; border: 1px solid var(--line); padding: 16px; color: #fff; border-radius: 4px; outline: none;" placeholder="••••••••" required minlength="8" />
+        <div style="margin-bottom: 40px;">
+          <label style="display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px; font-weight:600;">Execution Key (Password)</label>
+          <input type="password" name="password" style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-light); padding: 18px; color: #fff; border-radius: 12px; outline: none; transition: 0.3s; font-family:'Outfit';" placeholder="••••••••" required minlength="8" onfocus="this.style.borderColor='var(--gold-main)'" onblur="this.style.borderColor='var(--border-light)'" />
         </div>
-        <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center; padding: 18px; border-radius: 4px;">ESTABLISH ACCOUNT →</button>
+        <button type="submit" class="btn btn-gold" style="width: 100%; padding: 20px; font-size:1.1rem; border-radius:12px;">Confirm Deployment</button>
       </form>
     </div>
 
-    <div style="margin-top: 32px; text-align: center;">
-      <p style="color: var(--text-muted); font-size: 0.9rem;">
-        Existing member? <a href="{{ url_for('login') }}" style="color: #fff; text-decoration: none; font-weight: 600;">Sign In Here</a>
+    <div style="margin-top: 40px; text-align: center;">
+      <p style="color: var(--text-muted); font-size: 1rem;">
+        Existing operative? <a href="{{ url_for('login') }}" style="color: var(--gold-light); text-decoration: none; font-weight: 600;">Resume Connection</a>
       </p>
     </div>
   </div>
